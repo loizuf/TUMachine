@@ -1,0 +1,133 @@
+\documentclass[11pt,a4paper,titlepage]{article}
+\usepackage[a4paper]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lipsum}
+
+\usepackage{amsmath, amssymb, amsfonts, amsthm, fouriernc, mathtools}
+% mathtools for: Aboxed (put box on last equation in align envirenment)
+\usepackage{microtype} %improves the spacing between words and letters
+
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% COLOR DEFINITIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[svgnames]{xcolor} % Enabling mixing colors and color's call by 'svgnames'
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{MyColor1}{rgb}{0.2,0.4,0.6} %mix personal color
+\newcommand{\textb}{\color{Black} \usefont{OT1}{lmss}{m}{n}}
+\newcommand{\blue}{\color{MyColor1} \usefont{OT1}{lmss}{m}{n}}
+\newcommand{\blueb}{\color{MyColor1} \usefont{OT1}{lmss}{b}{n}}
+\newcommand{\red}{\color{LightCoral} \usefont{OT1}{lmss}{m}{n}}
+\newcommand{\green}{\color{Turquoise} \usefont{OT1}{lmss}{m}{n}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FONTS AND COLORS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    SECTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlesec}
+\usepackage{sectsty}
+%%%%%%%%%%%%%%%%%%%%%%%%
+%set section/subsections HEADINGS font and color
+\sectionfont{\color{MyColor1}}  % sets colour of sections
+\subsectionfont{\color{MyColor1}}  % sets colour of sections
+
+%set section enumerator to arabic number (see footnotes markings alternatives)
+\renewcommand\thesection{\arabic{section}.} %define sections numbering
+\renewcommand\thesubsection{\thesection\arabic{subsection}} %subsec.num.
+
+%define new section style
+\newcommand{\mysection}{
+\titleformat{\section} [runin] {\usefont{OT1}{lmss}{b}{n}\color{MyColor1}} 
+{\thesection} {3pt} {} } 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		CAPTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{caption}
+\usepackage{subcaption}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\captionsetup[figure]{labelfont={color=Turquoise}}
+
+
+\makeatletter
+\let\reftagform@=\tagform@
+\def\tagform@#1{\maketag@@@{(\ignorespaces\textcolor{red}{#1}\unskip\@@italiccorr)}}
+\renewcommand{\eqref}[1]{\textup{\reftagform@{\ref{#1}}}}
+\makeatother
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREPARE TITLE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\blue Machine Learning \\
+\blueb Classification exercise report - Group 27}
+\author{Borna Feldsar \\ Martin Matak \\ Soeren Nickel}
+\date{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{document}
+\maketitle
+
+\section{Datasets}
+\subsection{Dataset \textit{KDD Cup 1998}}
+\subsubsection{Characteristics of the dataset}
+
+\subsection{Dataset \textit{Breast cancer}}
+\subsubsection{Characteristics of the dataset}
+
+\subsection{Dataset \textit{Car evaluation}}
+\subsubsection{Characteristics of the dataset}
+
+\subsection{Dataset \textit{Detect Malicious Executable(AntiVirus)}}
+\subsubsection{Characteristics of the dataset}
+
+
+\section{Classifiers}
+\subsection{Naive Bayes}
+\subsection{Support Vector Machine - SVM}
+\subsection{Decision Tree}
+\subsection{Random Forest}
+
+\section{Dataset \textit{KDD Cup 1998}}
+\subsection{Naive Bayes}
+\subsection{Support Vector Machine - SVM}
+\subsection{Decision Tree}
+\subsection{Random Forest}
+\subsection{Comparison of classifiers}
+
+\section{Dataset \textit{Breast cancer}}
+\subsection{Naive Bayes}
+\subsection{Support Vector Machine - SVM}
+\subsection{Decision Tree}
+\subsection{Random Forest}
+\subsection{Comparison of classifiers}
+
+\section{Dataset \textit{Car evaluation}}
+\subsection{Naive Bayes}
+\subsection{Support Vector Machine - SVM}
+\subsection{Decision Tree}
+\subsection{Random Forest}
+\subsection{Comparison of classifiers}
+
+\section{Dataset \textit{Detect Malicious Executable(AntiVirus)}}
+\subsection{Naive Bayes}
+\subsection{Support Vector Machine - SVM}
+\subsection{Decision Tree}
+\subsection{Random Forest}
+\subsection{Comparison of classifiers}
+
+\section{Conclusion and future work}
+\end{document}
