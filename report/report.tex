@@ -159,7 +159,26 @@ Since we have two classifiers which we assume work well with small data sets, we
 In order to solve the issue of overfitting of \textit{Decision Tree} classifier, we decided to take an ensamble approach. Therefore, we expect to see the difference (at least on smaller data sets) in between \textit{Random Forest} (RF) and \textit{Decision Tree} (DT) in favour of \textit{Random Forest} (RF) which is statistically significant. However, we are aware that RF models are black box and DT models are white box, but that difference for us is not important in this exercise. Finally, since RF is an ensamble approach, we assume that evaluation time will be greater than using DT as classifier.
 
 \subsection{Performance measures}
+Based on slides of this course on \href{tuwel.tuwien.ac.at}{TUWEL} and \href{http://rali.iro.umontreal.ca/rali/sites/default/files/publis/SokolovaLapalme-JIPM09.pdf}{this paper}, we decided to measure performance of our classifiers as follows.
 
+In case of \textbf{binary classification} we  provide \textit{confusion matrix} described in Table \ref{table:confusionMatrix}. Using it, we compute then \textit{accuracy} of our classifier as $\frac{tp + tn}{tp + tn + fp + fn}$ and \textit{AUC} as $\frac{1}{2} (\frac{tp}{tp + fn} + \frac{tn}{tn+fp})$.  With those measures, we will measure the overall effectiveness (avg) of the classifier and classifier’s ability to avoid false classification (AUC).
+
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
+    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
+    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix}
+  \label{table:confusionMatrix}
+  \end{table}
+
+Regarding the \textbf{multi-class classification}, since the greatest number of classes we have is 4, we  provide confusion matrix for every of those classes. Moreover, we provide \textit{average accuracy} of a classifier. Average accuracy is defined as average \textit{accuracy} over all of the classes, i.e. $\frac{\sum_{i=1}^{l}\frac{tp_i + tn_i}{tp_i + fp_i + tn_i + fn_i}}{l}$ where \textit{l} is number of different classes. Additionally, we provide \textit{Error rate} $\frac{\sum_{i=1}^{l}\frac{fp_i + fn_i}{tp_i + fp_i + tn_i + fn_i}}{l}$ as well. Hence, we will see the average per-class effectiveness of a classifier and the average per-class classification error.
+
+Since confusion matrix is provided, it should not be a problem for a reader to come up with some other more complex performance measure - e.g. \textit{FScore} or any other performance measure based on confusion matrix if needed. Therefore, we believe that our performance measures and confusion matrix are sufficient.
 \section{Dataset \textit{KDD Cup 1998}}
 \subsection{Naive Bayes}
 \subsection{Support Vector Machine - SVM}
