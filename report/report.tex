@@ -143,10 +143,21 @@ Source: \url{https://archive.ics.uci.edu/ml/datasets/Detect+Malacious+Executable
 
 
 \section{Classifiers}
+We picked four different classifiers: Naive Bayes, SVM, Decision Tree and Random Forest. Below is explained our motivation why we decided to take those four classifiers.
+
 \subsection{Naive Bayes}
+Classifier which comes from family of simple probabilistic classifiers based on applying Bayes' theorem with strong (naive) independence assumptions between the features. Although it's mostly used for working with text classification, we picked it as one of our four classifiers. We believe that the conditional independence assumption actually holds and that's why we picked this classifier. Moreover, we assume that it will behave well on smaller data sets. Finally, we think that training time will be shorter than for some more complex classifiers - e.g. SVM.
+
 \subsection{Support Vector Machine - SVM}
+SVM is non-probabilistic binary linear classifier which can also perform a non-linear classification using the \textit{kernel trick}, implicitly mapping their inputs into high-dimensional feature spaces. As one of the most popular and oldest \footnote{The original SVM algorithm was invented by Vladimir N. Vapnik and Alexey Ya. Chervonenkis in 1963.} classifiers which is in this area, we had to pick it to try it out and learn more about it. We expect it will behave very well on data sets with only two classes. However, we are aware that we will have to come up with a solution for classifying categorical data with this classifier. Moreover, when used to classify in more then two classes, we expect longer runtime. Finally, we expect SVM to be good at dealing with small data sets, since only support vectors and not all the samples are used to constuct the separating hyperplane. 
+
+
 \subsection{Decision Tree}
+Since we have two classifiers which we assume work well with small data sets, we had to pick one which would work good with large data sets in a reasonable time. That's why we picked this classifier. In addition to that, it is able to handle both numerical and categorical data so we will need less preprocessing when using this classifier. However, we must take care about the depth of the tree because it can easily happen that we finish up with over-complex tree that do not generalize well from the training data. That's why we don't expect it to work well with small data sets.
+
 \subsection{Random Forest}
+In order to solve the issue of overfitting of \textit{Decision Tree} classifier, we decided to take an ensamble approach. Therefore, we expect to see the difference (at least on smaller data sets) in between \textit{Random Forest} (RF) and \textit{Decision Tree} (DT) in favour of \textit{Random Forest} (RF) which is statistically significant. However, we are aware that RF models are black box and DT models are white box, but that difference for us is not important in this exercise. Finally, since RF is an ensamble approach, we assume that evaluation time will be greater than using DT as classifier.
+
 \subsection{Performance measures}
 
 \section{Dataset \textit{KDD Cup 1998}}
