@@ -179,11 +179,132 @@ In case of \textbf{binary classification} we  provide \textit{confusion matrix} 
 Regarding the \textbf{multi-class classification}, since the greatest number of classes we have is 4, we  provide confusion matrix for every of those classes. Moreover, we provide \textit{average accuracy} of a classifier. Average accuracy is defined as average \textit{accuracy} over all of the classes, i.e. $\frac{\sum_{i=1}^{l}\frac{tp_i + tn_i}{tp_i + fp_i + tn_i + fn_i}}{l}$ where \textit{l} is number of different classes. Additionally, we provide \textit{Error rate} $\frac{\sum_{i=1}^{l}\frac{fp_i + fn_i}{tp_i + fp_i + tn_i + fn_i}}{l}$ as well. Hence, we will see the average per-class effectiveness of a classifier and the average per-class classification error.
 
 Since confusion matrix is provided, it should not be a problem for a reader to come up with some other more complex performance measure - e.g. \textit{FScore} or any other performance measure based on confusion matrix if needed. Therefore, we believe that our performance measures and confusion matrix are sufficient.
+
 \section{Dataset \textit{KDD Cup 1998}}
+
 \subsection{Naive Bayes}
+Confusion matrix with best performance is in the Table \ref{table:confusionMatrixBayesKDD}. Performance measures with different parameters are in the Table \ref{table:BayesKDD}.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
+    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
+    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix of best performance}
+  \label{table:confusionMatrixBayesKDD}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	ACU 	& Training time [min] & Evaluation time [min] \\ \hline
+    param1, param2 &  1 	  &     1		& 		1			  & 		1 		\\ \hline
+    param1, param2 & 	1	  & 	1 		& 		1			  &			1 		\\ \hline
+    param1, param2 & 	2	  & 	1		& 		1			  &			1		\\ \hline
+    param1, param2 &  1       & 	1		& 		1			  &			1			\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters}
+  \label{table:BayesKDD}
+  \end{table}
+  
 \subsection{Support Vector Machine - SVM}
+
+Confusion matrix with best performance is in the Table \ref{table:confusionMatrixSVMKDD}. Performance measures with different parameters are in the Table \ref{table:SVMKDD}.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
+    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
+    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix of best performance}
+  \label{table:confusionMatrixSVMKDD}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	ACU 	& Training time [min] & Evaluation time [min] \\ \hline
+    param1, param2 &  1 	  &     1		& 		1			  & 		1 		\\ \hline
+    param1, param2 & 	1	  & 	1 		& 		1			  &			1 		\\ \hline
+    param1, param2 & 	2	  & 	1		& 		1			  &			1		\\ \hline
+    param1, param2 &  1       & 	1		& 		1			  &			1			\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters}
+  \label{table:SVMKDD}
+  \end{table}
+
 \subsection{Decision Tree}
+
+Confusion matrix with best performance is in the Table \ref{table:confusionMatrixDTKDD}. Performance measures with different parameters are in the Table \ref{table:DTKDD}.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
+    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
+    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix of best performance}
+  \label{table:confusionMatrixDTKDD}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	ACU 	& Training time [min] & Evaluation time [min] \\ \hline
+    param1, param2 &  1 	  &     1		& 		1			  & 		1 		\\ \hline
+    param1, param2 & 	1	  & 	1 		& 		1			  &			1 		\\ \hline
+    param1, param2 & 	2	  & 	1		& 		1			  &			1		\\ \hline
+    param1, param2 &  1       & 	1		& 		1			  &			1			\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters}
+  \label{table:DTKDD}
+  \end{table}
+
 \subsection{Random Forest}
+Confusion matrix with best performance is in the Table \ref{table:confusionMatrixRFKDD}. Performance measures with different parameters are in the Table \ref{table:RFKDD}.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
+    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
+    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix of best performance}
+  \label{table:confusionMatrixRFKDD}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	ACU 	& Training time [min] & Evaluation time [min] \\ \hline
+    param1, param2 &  1 	  &     1		& 		1			  & 		1 		\\ \hline
+    param1, param2 & 	1	  & 	1 		& 		1			  &			1 		\\ \hline
+    param1, param2 & 	2	  & 	1		& 		1			  &			1		\\ \hline
+    param1, param2 &  1       & 	1		& 		1			  &			1			\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters}
+  \label{table:RFKDD}
+  \end{table}
+
+
 \subsection{Comparison of classifiers}
 
 \section{Dataset \textit{Breast cancer}}
