@@ -15,7 +15,7 @@ X_train, X_test, y_train, y_test = train_test_split(templ.drop("Class_recurrence
 # Training 70/30 split starts
 start = timeit.default_timer()
 
-clf = tree.DecisionTreeClassifier(max_depth=8, min_samples_leaf=3)
+clf = tree.DecisionTreeClassifier(min_impurity_decrease=0.01, min_samples_leaf=4)
 clf = clf.fit(X_train, y_train)
 
 # Training 70/30 split ends
