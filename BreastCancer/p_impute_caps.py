@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn import linear_model
-from sklearn.cross_validation import cross_val_score, cross_val_predict
+from sklearn.model_selection import cross_val_score, cross_val_predict
 from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
 from sklearn.model_selection import KFold
