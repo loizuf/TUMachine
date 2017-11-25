@@ -1,9 +1,4 @@
 import pandas as pd
-from sklearn import linear_model
-from sklearn.cross_validation import cross_val_score, cross_val_predict
-from sklearn.model_selection import train_test_split
-from matplotlib import pyplot as plt
-from sklearn.model_selection import KFold
 
 complete_test_with_ID = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.test.imput.csv")
 complete_train_with_ID = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.train.imput.csv")
