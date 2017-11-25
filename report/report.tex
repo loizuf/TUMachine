@@ -180,10 +180,17 @@ Regarding the \textbf{multi-class classification}, since the greatest number of 
 
 Since confusion matrix is provided, it should not be a problem for a reader to come up with some other more complex performance measure - e.g. \textit{FScore} or any other performance measure based on confusion matrix if needed. Therefore, we believe that our performance measures and confusion matrix are sufficient.
 
+\subsection{Comparison of classifiers}
+
+For every dataset, comparison in between all four classifiers is done. More specifically, \textit{statistical significance testing} is done using \textbf{paired t-Test} (on \textit{accuracy}) with $\mu_0 = 0$. We find that t-Test is convinient in our case since we use cross-validation as a model validation technique with $k=10$. 
+
+In all our experiments, we have the same \textbf{Null hypothesis: both classifiers are equal}. By convention, we reject null hypothesis and say difference is statistically significant if probability of null hypothesis less than 5\%. To obtain \textit{p-value} we used online calculator\footnote{\url{http://www.socscistatistics.com/pvalues/tdistribution.aspx}}.
+
+
 \section{Dataset \textit{KDD Cup 1998}}
 
 \subsection{Naive Bayes}
-Confusion matrix with best performance is in the Table \ref{table:confusionMatrixBayesKDD}. Performance measures with different parameters are in the Table \ref{table:BayesKDD}.
+Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixBayesKDD}. Performance measures with different parameters are in the Table \ref{table:BayesKDD}.
 \begin{table}
   \centering
   \begin{tabular}{| c | c | c |}
@@ -193,7 +200,7 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
     \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
     \hline
   \end{tabular}
-  \caption{Confusion matrix of best performance}
+  \caption{Confusion matrix using the best settings (Naive Bayes - KDD Cup 1998)}
   \label{table:confusionMatrixBayesKDD}
   \end{table}
   
@@ -208,13 +215,13 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
     param1, param2 &  1       & 	1		& 		1			  &			1			\\
     \hline
   \end{tabular}
-  \caption{Performance measures with different parameters}
+  \caption{Performance measures with different parameters (Naive Bayes - KDD Cup 1998)}
   \label{table:BayesKDD}
   \end{table}
   
 \subsection{Support Vector Machine - SVM}
 
-Confusion matrix with best performance is in the Table \ref{table:confusionMatrixSVMKDD}. Performance measures with different parameters are in the Table \ref{table:SVMKDD}.
+Confusion matrix using the best performance is in the Table \ref{table:confusionMatrixSVMKDD}. Performance measures with different parameters are in the Table \ref{table:SVMKDD}.
 \begin{table}
   \centering
   \begin{tabular}{| c | c | c |}
@@ -224,7 +231,7 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
     \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
     \hline
   \end{tabular}
-  \caption{Confusion matrix of best performance}
+  \caption{Confusion matrix using the best settings (SVM - KDD Cup 1998)}
   \label{table:confusionMatrixSVMKDD}
   \end{table}
   
@@ -239,13 +246,13 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
     param1, param2 &  1       & 	1		& 		1			  &			1			\\
     \hline
   \end{tabular}
-  \caption{Performance measures with different parameters}
+  \caption{Performance measures with different parameters (SVM Bayes - KDD Cup 1998)}
   \label{table:SVMKDD}
   \end{table}
 
 \subsection{Decision Tree}
 
-Confusion matrix with best performance is in the Table \ref{table:confusionMatrixDTKDD}. Performance measures with different parameters are in the Table \ref{table:DTKDD}.
+Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixDTKDD}. Performance measures with different parameters are in the Table \ref{table:DTKDD}.
 \begin{table}
   \centering
   \begin{tabular}{| c | c | c |}
@@ -255,7 +262,7 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
     \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
     \hline
   \end{tabular}
-  \caption{Confusion matrix of best performance}
+  \caption{Confusion matrix using the best settings (DT - KDD Cup 1998)}
   \label{table:confusionMatrixDTKDD}
   \end{table}
   
@@ -270,12 +277,12 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
     param1, param2 &  1       & 	1		& 		1			  &			1			\\
     \hline
   \end{tabular}
-  \caption{Performance measures with different parameters}
+  \caption{Performance measures with different parameters (DT - KDD Cup 1998)}
   \label{table:DTKDD}
   \end{table}
 
 \subsection{Random Forest}
-Confusion matrix with best performance is in the Table \ref{table:confusionMatrixRFKDD}. Performance measures with different parameters are in the Table \ref{table:RFKDD}.
+Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixRFKDD}. 
 \begin{table}
   \centering
   \begin{tabular}{| c | c | c |}
@@ -285,9 +292,11 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
     \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
     \hline
   \end{tabular}
-  \caption{Confusion matrix of best performance}
+  \caption{Confusion matrix using the best settings (RF - KDD Cup 1998)}
   \label{table:confusionMatrixRFKDD}
   \end{table}
+  
+  Performance measures with different parameters are in the Table \ref{table:RFKDD}.
   
   \begin{table}
   \centering
@@ -300,14 +309,35 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
     param1, param2 &  1       & 	1		& 		1			  &			1			\\
     \hline
   \end{tabular}
-  \caption{Performance measures with different parameters}
+  \caption{Performance measures with different parameters (RF - KDD Cup 1998)}
   \label{table:RFKDD}
+  \end{table}
+  
+
+\subsection{Comparison of classifiers}
+Comparison of classifiers (using the best settings for every classifier) is done using the paired t-Test and $p$-values can be found in a Table \ref{table:comparisonKDD}.
+
+
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & NB 	  & 	SVM 	& DT		 & RF \\ \hline
+    NB 			   &  - 	  &     1		& 		1	 & 	1 		\\ \hline
+    SVM 		   & 	1	  & 	- 		& 		1	 &	1 		\\ \hline
+    DT 			   & 	2	  & 	1		& 		-	 &	1		\\ \hline
+    RF 			   &  1       & 	1		& 		1	 &	-			\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters for KDD cup dataset.}
+  \label{table:comparisonKDD}
   \end{table}
 
 
-\subsection{Comparison of classifiers}
+
 
 \section{Dataset \textit{Breast cancer}}
+
 \subsection{Naive Bayes}
 \subsection{Support Vector Machine - SVM}
 \subsection{Decision Tree}
@@ -315,6 +345,7 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
 \subsection{Comparison of classifiers}
 
 \section{Dataset \textit{Car evaluation}}
+
 \subsection{Naive Bayes}
 \subsection{Support Vector Machine - SVM}
 \subsection{Decision Tree}
@@ -322,6 +353,7 @@ Confusion matrix with best performance is in the Table \ref{table:confusionMatri
 \subsection{Comparison of classifiers}
 
 \section{Dataset \textit{Detect Malicious Executable(AntiVirus)}}
+
 \subsection{Naive Bayes}
 \subsection{Support Vector Machine - SVM}
 \subsection{Decision Tree}
