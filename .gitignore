@@ -153,3 +153,4 @@ crashlytics-build.properties
 fabric.properties
 
 # End Jetbrains IDE specific ignores
+./idea

@@ -17,28 +17,29 @@
 \BOOKMARK [2][-]{subsection.2.3}{Decision Tree}{section.2}% 17
 \BOOKMARK [2][-]{subsection.2.4}{Random Forest}{section.2}% 18
 \BOOKMARK [2][-]{subsection.2.5}{Performance measures}{section.2}% 19
-\BOOKMARK [1][-]{section.3}{Dataset KDD Cup 1998}{}% 20
-\BOOKMARK [2][-]{subsection.3.1}{Naive Bayes}{section.3}% 21
-\BOOKMARK [2][-]{subsection.3.2}{Support Vector Machine - SVM}{section.3}% 22
-\BOOKMARK [2][-]{subsection.3.3}{Decision Tree}{section.3}% 23
-\BOOKMARK [2][-]{subsection.3.4}{Random Forest}{section.3}% 24
-\BOOKMARK [2][-]{subsection.3.5}{Comparison of classifiers}{section.3}% 25
-\BOOKMARK [1][-]{section.4}{Dataset Breast cancer}{}% 26
-\BOOKMARK [2][-]{subsection.4.1}{Naive Bayes}{section.4}% 27
-\BOOKMARK [2][-]{subsection.4.2}{Support Vector Machine - SVM}{section.4}% 28
-\BOOKMARK [2][-]{subsection.4.3}{Decision Tree}{section.4}% 29
-\BOOKMARK [2][-]{subsection.4.4}{Random Forest}{section.4}% 30
-\BOOKMARK [2][-]{subsection.4.5}{Comparison of classifiers}{section.4}% 31
-\BOOKMARK [1][-]{section.5}{Dataset Car evaluation}{}% 32
-\BOOKMARK [2][-]{subsection.5.1}{Naive Bayes}{section.5}% 33
-\BOOKMARK [2][-]{subsection.5.2}{Support Vector Machine - SVM}{section.5}% 34
-\BOOKMARK [2][-]{subsection.5.3}{Decision Tree}{section.5}% 35
-\BOOKMARK [2][-]{subsection.5.4}{Random Forest}{section.5}% 36
-\BOOKMARK [2][-]{subsection.5.5}{Comparison of classifiers}{section.5}% 37
-\BOOKMARK [1][-]{section.6}{Dataset Detect Malicious Executable\(AntiVirus\)}{}% 38
-\BOOKMARK [2][-]{subsection.6.1}{Naive Bayes}{section.6}% 39
-\BOOKMARK [2][-]{subsection.6.2}{Support Vector Machine - SVM}{section.6}% 40
-\BOOKMARK [2][-]{subsection.6.3}{Decision Tree}{section.6}% 41
-\BOOKMARK [2][-]{subsection.6.4}{Random Forest}{section.6}% 42
-\BOOKMARK [2][-]{subsection.6.5}{Comparison of classifiers}{section.6}% 43
-\BOOKMARK [1][-]{section.7}{Conclusion and future work}{}% 44
+\BOOKMARK [2][-]{subsection.2.6}{Comparison of classifiers}{section.2}% 20
+\BOOKMARK [1][-]{section.3}{Dataset KDD Cup 1998}{}% 21
+\BOOKMARK [2][-]{subsection.3.1}{Naive Bayes}{section.3}% 22
+\BOOKMARK [2][-]{subsection.3.2}{Support Vector Machine - SVM}{section.3}% 23
+\BOOKMARK [2][-]{subsection.3.3}{Decision Tree}{section.3}% 24
+\BOOKMARK [2][-]{subsection.3.4}{Random Forest}{section.3}% 25
+\BOOKMARK [2][-]{subsection.3.5}{Comparison of classifiers}{section.3}% 26
+\BOOKMARK [1][-]{section.4}{Dataset Breast cancer}{}% 27
+\BOOKMARK [2][-]{subsection.4.1}{Naive Bayes}{section.4}% 28
+\BOOKMARK [2][-]{subsection.4.2}{Support Vector Machine - SVM}{section.4}% 29
+\BOOKMARK [2][-]{subsection.4.3}{Decision Tree}{section.4}% 30
+\BOOKMARK [2][-]{subsection.4.4}{Random Forest}{section.4}% 31
+\BOOKMARK [2][-]{subsection.4.5}{Comparison of classifiers}{section.4}% 32
+\BOOKMARK [1][-]{section.5}{Dataset Car evaluation}{}% 33
+\BOOKMARK [2][-]{subsection.5.1}{Naive Bayes}{section.5}% 34
+\BOOKMARK [2][-]{subsection.5.2}{Support Vector Machine - SVM}{section.5}% 35
+\BOOKMARK [2][-]{subsection.5.3}{Decision Tree}{section.5}% 36
+\BOOKMARK [2][-]{subsection.5.4}{Random Forest}{section.5}% 37
+\BOOKMARK [2][-]{subsection.5.5}{Comparison of classifiers}{section.5}% 38
+\BOOKMARK [1][-]{section.6}{Dataset Detect Malicious Executable\(AntiVirus\)}{}% 39
+\BOOKMARK [2][-]{subsection.6.1}{Naive Bayes}{section.6}% 40
+\BOOKMARK [2][-]{subsection.6.2}{Support Vector Machine - SVM}{section.6}% 41
+\BOOKMARK [2][-]{subsection.6.3}{Decision Tree}{section.6}% 42
+\BOOKMARK [2][-]{subsection.6.4}{Random Forest}{section.6}% 43
+\BOOKMARK [2][-]{subsection.6.5}{Comparison of classifiers}{section.6}% 44
+\BOOKMARK [1][-]{section.7}{Conclusion and future work}{}% 45
