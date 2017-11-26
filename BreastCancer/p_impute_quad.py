@@ -49,10 +49,10 @@ model = lm.fit(X_train, y_train)
 predictions = lm.predict(X_test)
 
 print ("Score:", model.score(X_test, y_test))
-plt.scatter(y_test, predictions)
-plt.xlabel("True Values")
-plt.ylabel("Predictions")
-plt.show()
+# plt.scatter(y_test, predictions)
+# plt.xlabel("True Values")
+# plt.ylabel("Predictions")
+# plt.show()
 
 
 # create model on complete data and use 6-fold cross-validation to test the model
@@ -62,10 +62,10 @@ kf = KFold(n_splits = 5, shuffle = True)
 scores = cross_val_score(model, templ, y, cv=6)
 print("cross-scores: ", scores)
 predictions = cross_val_predict(model, templ, y, cv=6)
-plt.scatter(y, predictions)
-plt.xlabel("True Values")
-plt.ylabel("Predictions")
-plt.show()
+# plt.scatter(y, predictions)
+# plt.xlabel("True Values")
+# plt.ylabel("Predictions")
+# plt.show()
 
 # now take the complete model and predict the missing values in testset
 print(lm.predict(test_missing_quads))

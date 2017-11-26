@@ -11,7 +11,7 @@ templ_test = pd.get_dummies(test).drop("ID", axis=1)
 # Training starts
 start = timeit.default_timer()
 
-clf = RandomForestClassifier(min_impurity_decrease=0.001, min_samples_leaf=5)
+clf = RandomForestClassifier(max_depth=3, min_samples_leaf=3)
 clf = clf.fit(templ_train.drop("Class_recurrence-events", axis=1), templ_train["Class_recurrence-events"])
 
 # Training ends
