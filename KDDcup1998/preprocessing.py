@@ -1,23 +1,21 @@
-import pandas as pd
 import csv
+
+import pandas as pd
 
 
 def fix_files_csv(file1_name, file2_name):
     file1 = open(file1_name, "r")
     file2 = open(file2_name, "w")
 
+    pamwriter = csv.writer(file2)
     for row in file1:
-        attributes = row.replace(" ", "").split(",")
-        pamwriter = csv.writer(file2)
+        attributes = row.strip("\n").replace(" ", "").split(",")
         pamwriter.writerow(attributes)
     file1.close()
     file2.close()
 
 
 def preprocess_dataset(dataset):
-    # drop ID attribute
-    dataset.drop('CONTROLN', axis=1, inplace=True)
-
     # remove attributes with more then 40% of missing values
     # keep if you have more then 60% of values
     feasible_columns = dataset.count() > 0.60 * len(dataset.index)
@@ -77,8 +75,18 @@ def impute_data(dataset):
 
 
 def write_to_csv(dataset, csv_file):
-    dataset.to_csv(csv_file, encoding='utf-8')
+    dataset.to_csv(csv_file, index=False, encoding='utf-8')
 
+def prepare_normalize(dataset):
+    dataset["ZIP"] = dataset["ZIP"].astype("object")
+    if "TARGETB" in dataset:
+        dataset["TARGET_B"] = dataset["TARGET_B"].astype("object")
+    if "CONTROLN" in dataset:
+        dataset_test["CONTROLN"] = dataset_test["CONTROLN"].astype("object")
+
+def normalize_dataset(dataset):
+    numeric_columns = dataset.select_dtypes(exclude=['object']).columns.values
+    dataset[numeric_columns] = dataset.select_dtypes(exclude=['object']).apply(lambda x: (x - x.mean()) / x.std())
 
 if __name__ == '__main__':
     file_name_train = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.shuf.5000.train.csv"
@@ -100,12 +108,19 @@ if __name__ == '__main__':
     target_b = dataset_train['TARGET_B']
     dataset_train = use_only_and_attributes(dataset_train, attributes_and)
     dataset_train['TARGET_B'] = target_b
-
     dataset_test = use_only_and_attributes(dataset_test, attributes_and)
+    # drop ID attribute
+    dataset_train.drop('CONTROLN', axis=1, inplace=True)
     ######################
     # imputation
     dataset_test = impute_data(dataset_test)
     dataset_train = impute_data(dataset_train)
+
+    prepare_normalize(dataset_train)
+    normalize_dataset(dataset_train)
+
+    prepare_normalize(dataset_test)
+    normalize_dataset(dataset_test)
 
     write_to_csv(dataset_train, file_name_train2)
     write_to_csv(dataset_test, file_name_test2)
