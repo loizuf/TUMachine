@@ -5,16 +5,15 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
 import timeit
 
-# test = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.test.imput.numerical.csv")
-train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.train.imput.csv")
-templ = pd.get_dummies(train).drop("Class_no-recurrence-events", axis=1)
-X_train, X_test, y_train, y_test = train_test_split(templ.drop("Class_recurrence-events", axis=1),
-                                                    templ["Class_recurrence-events"], test_size=0.3, shuffle=True)
+train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/KDD Cup 1998/final (categorical + numerical)/cup98ID.shuf.5000.train2.csv")
+templ = pd.get_dummies(train)
+X_train, X_test, y_train, y_test = train_test_split(templ.drop("TARGET_B", axis=1),
+                                                    templ["TARGET_B"], test_size=0.3, shuffle=True)
 
 # Training 70/30 split starts
 start = timeit.default_timer()
 
-clf = tree.DecisionTreeClassifier(min_impurity_decrease=0.01, min_samples_leaf=5)
+clf = tree.DecisionTreeClassifier(min_impurity_decrease=0.0001, min_samples_leaf=25, class_weight={0:1, 1:10})
 clf = clf.fit(X_train, y_train)
 
 # Training 70/30 split ends
@@ -27,7 +26,7 @@ start = timeit.default_timer()
 predictions = clf.predict(X_test)
 conf_mat = confusion_matrix(y_test, predictions)
 acc_score = accuracy_score(y_test, predictions)
-auc = metrics.auc(y_test, predictions, reorder=False)
+auc = metrics.auc(y_test, predictions, reorder=True)
 print(conf_mat)
 print(acc_score)
 print(auc)
@@ -40,7 +39,7 @@ time_for_split_eval = end - start
 start = timeit.default_timer()
 
 kf = KFold(n_splits=10, shuffle=True)
-fold_scores = cross_val_score(clf, templ.drop("Class_recurrence-events", axis=1), templ["Class_recurrence-events"],
+fold_scores = cross_val_score(clf, templ.drop("TARGET_B", axis=1), templ["TARGET_B"],
                               cv=10, scoring='accuracy')
 print(fold_scores)
 
@@ -50,12 +49,12 @@ time_for_fold_eval = end - start
 
 # Visualization (no timing, why thank you I'd like a kangaroo)
 dot_data = tree.export_graphviz(clf, out_file=None,
-                                feature_names=templ.drop("Class_recurrence-events", axis=1).columns.values,
-                                class_names=["no recurrence", "recurrence"],
+                                feature_names=templ.drop("TARGET_B", axis=1).columns.values,
+                                class_names=True,
                                 filled=True, rounded=True,
                                 special_characters=True)
 graph = graphviz.Source(dot_data)
-graph.render("tree",view=True)
+graph.render("tree", view=True)
 
 # Write results to file
 dt_results = open("analysis/dt.txt", "w")
