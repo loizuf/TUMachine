@@ -1,0 +1,21 @@
+These are the Results of analyzing the Breastcancer-Dataset with the following decision Tree:
+
+DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_decrease=0.01, min_impurity_split=None,
+            min_samples_leaf=5, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, presort=False, random_state=None,
+            splitter='best')
+
+The following measurements were taken:
+Confusion matrix: 
+[[27  2]
+ [12  2]]
+Accuracy: 0.674418604651
+Area under the Curve: 128.5
+10-fold scores:
+ [ 0.66666667  0.66666667  0.8         0.66666667  0.73333333  0.64285714
+  0.78571429  0.71428571  0.69230769  0.53846154]
+Training (70/30 split) took: 0.0007947330000206421 seconds
+Evaluation (70/30 split) took: 0.0014488929996332445 seconds
+Evaluation(10-fold) took: 0.02803042400000777 seconds

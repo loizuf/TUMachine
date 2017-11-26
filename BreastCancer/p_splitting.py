@@ -1,11 +1,11 @@
-cancer_train_data = open("../Cancer/breast-cancer.shuf.train.csv", "r")
-complete_train_data_complete = open("../Cancer/cleaning/breast-cancer.shuf.train.complete.csv", "w")
-missing_train_data_caps = open("../Cancer/cleaning/breast-cancer.shuf.train.missing_caps.csv", "w")
+cancer_train_data = open("../datasets/Cancer/breast-cancer.shuf.train.csv", "r")
+complete_train_data_complete = open("../datasets/Cancer/cleaning/breast-cancer.shuf.train.complete.csv", "w")
+missing_train_data_caps = open("../datasets/Cancer/cleaning/breast-cancer.shuf.train.missing_caps.csv", "w")
 
-cancer_test_data = open("../Cancer/breast-cancer.shuf.test.csv", "r")
-complete_test_data_complete = open("../Cancer/cleaning/breast-cancer.shuf.test.complete.csv", "w")
-missing_test_data_caps = open("../Cancer/cleaning/breast-cancer.shuf.test.missing_caps.csv", "w")
-missing_test_data_quad = open("../Cancer/cleaning/breast-cancer.shuf.test.missing_quad.csv", "w")
+cancer_test_data = open("../datasets/Cancer/breast-cancer.shuf.test.csv", "r")
+complete_test_data_complete = open("../datasets/Cancer/cleaning/breast-cancer.shuf.test.complete.csv", "w")
+missing_test_data_caps = open("../datasets/Cancer/cleaning/breast-cancer.shuf.test.missing_caps.csv", "w")
+missing_test_data_quad = open("../datasets/Cancer/cleaning/breast-cancer.shuf.test.missing_quad.csv", "w")
 
 train_lines = cancer_train_data.readlines()
 test_lines = cancer_test_data.readlines()
@@ -17,6 +17,7 @@ complete_test_data_complete.write(train_lines[0])
 missing_test_data_caps.write(train_lines[0])
 missing_test_data_quad.write(train_lines[0])
 
+#lines with empty attribute ("?") are written in separate files
 for i in range(1, len(train_lines)):
     next_line_array = train_lines[i].split(",")
     if next_line_array[5] == "?":

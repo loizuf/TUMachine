@@ -5,11 +5,11 @@ from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
 from sklearn.model_selection import KFold
 
-train_complete_with_ID = pd.read_csv("../Cancer/cleaning/breast-cancer.shuf.train.complete.csv")
-train_missing_caps_with_ID = pd.read_csv("../Cancer/cleaning/breast-cancer.shuf.train.missing_caps.csv")
+train_complete_with_ID = pd.read_csv("../datasets/Cancer/cleaning/breast-cancer.shuf.train.complete.csv")
+train_missing_caps_with_ID = pd.read_csv("../datasets/Cancer/cleaning/breast-cancer.shuf.train.missing_caps.csv")
 
-test_complete_with_ID = pd.read_csv("../Cancer/cleaning/breast-cancer.shuf.test.complete.csv")
-test_missing_caps_with_ID = pd.read_csv("../Cancer/cleaning/breast-cancer.shuf.test.missing_caps.csv")
+test_complete_with_ID = pd.read_csv("../datasets/Cancer/cleaning/breast-cancer.shuf.test.complete.csv")
+test_missing_caps_with_ID = pd.read_csv("../datasets/Cancer/cleaning/breast-cancer.shuf.test.missing_caps.csv")
 
 
 # drop ID column and convert everything to categorical data, then map numerical data on it
