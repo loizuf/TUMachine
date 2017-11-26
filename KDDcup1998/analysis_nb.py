@@ -4,7 +4,6 @@ from sklearn.model_selection import KFold, cross_val_score
 import utils.utils as utils
 
 if __name__ == '__main__':
-    print(pd.__version__)
     file_name = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.shuf.5000.train2.csv"
     dataset_train = pd.read_csv(file_name, low_memory=False)
     gnb = GaussianNB()

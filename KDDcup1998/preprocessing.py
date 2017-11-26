@@ -79,7 +79,7 @@ def write_to_csv(dataset, csv_file):
 
 def prepare_normalize(dataset):
     dataset["ZIP"] = dataset["ZIP"].astype("object")
-    if "TARGETB" in dataset:
+    if "TARGET_B" in dataset:
         dataset["TARGET_B"] = dataset["TARGET_B"].astype("object")
     if "CONTROLN" in dataset:
         dataset_test["CONTROLN"] = dataset_test["CONTROLN"].astype("object")
