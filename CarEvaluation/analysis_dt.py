@@ -13,7 +13,7 @@ X_train, X_test, y_train, y_test = train_test_split(templ.drop("class", axis=1),
 # Training 70/30 split starts
 start = timeit.default_timer()
 
-clf = tree.DecisionTreeClassifier(min_impurity_decrease=0.001, min_samples_leaf=10)
+clf = tree.DecisionTreeClassifier(min_impurity_decrease=0.0005, min_samples_leaf=10)
 clf = clf.fit(X_train, y_train)
 
 # Training 70/30 split ends
@@ -53,11 +53,11 @@ dot_data = tree.export_graphviz(clf, out_file=None,
                                 filled=True, rounded=True,
                                 special_characters=True)
 graph = graphviz.Source(dot_data)
-graph.render("tree",view=True)
+graph.render("images/tree", view=True)
 
 # Write results to file
 dt_results = open("analysis/dt.txt", "w")
-dt_results.write("These are the Results of analyzing the Breast-Dataset with the following decision Tree:\n\n" + str(clf)
+dt_results.write("These are the Results of analyzing the Car-evaluation-Dataset with the following decision Tree:\n\n" + str(clf)
                  + "\n\nThe following measurements were taken:"
                  + "\nConfusion matrix: \n" + str(conf_mat)
                  + "\nAccuracy: " + str(acc_score)

@@ -55,11 +55,11 @@ dot_data = tree.export_graphviz(clf, out_file=None,
                                 filled=True, rounded=True,
                                 special_characters=True)
 graph = graphviz.Source(dot_data)
-graph.render("tree",view=True)
+graph.render("images/tree",view=True)
 
 # Write results to file
 dt_results = open("analysis/dt.txt", "w")
-dt_results.write("These are the Results of analyzing the Breast-Dataset with the following decision Tree:\n\n" + str(clf)
+dt_results.write("These are the Results of analyzing the Breastcancer-Dataset with the following decision Tree:\n\n" + str(clf)
                  + "\n\nThe following measurements were taken:"
                  + "\nConfusion matrix: \n" + str(conf_mat)
                  + "\nAccuracy: " + str(acc_score)

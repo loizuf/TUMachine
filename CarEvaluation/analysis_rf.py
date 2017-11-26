@@ -1,18 +1,20 @@
 from sklearn import tree, metrics
 import pandas as pd
 import graphviz
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
 import timeit
 
-train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Malicious_Software/dataset_cleaned_minimal.csv")
-X_train, X_test, y_train, y_test = train_test_split(train.drop("class", axis=1),
-                                                    train["class"], test_size=0.3, shuffle=True)
+train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Car evaluation/car.data.csv", header=None, names=["buying", "maint", "doors", "persons", "lug_boot", "safety", "class"])
+templ = pd.get_dummies(train, columns=["buying", "maint", "doors", "persons", "lug_boot", "safety"])
+X_train, X_test, y_train, y_test = train_test_split(templ.drop("class", axis=1),
+                                                    templ["class"], test_size=0.3, shuffle=True)
 
 # Training 70/30 split starts
 start = timeit.default_timer()
 
-clf = tree.DecisionTreeClassifier(min_impurity_decrease=0.01, min_samples_leaf=4)
+clf = RandomForestClassifier(min_impurity_decrease=0.0005, min_samples_leaf=10)
 clf = clf.fit(X_train, y_train)
 
 # Training 70/30 split ends
@@ -25,10 +27,10 @@ start = timeit.default_timer()
 predictions = clf.predict(X_test)
 conf_mat = confusion_matrix(y_test, predictions)
 acc_score = accuracy_score(y_test, predictions)
-auc = metrics.auc(y_test, predictions, reorder=True)
+#auc = metrics.auc(y_test, predictions, reorder=True)
 print(conf_mat)
 print(acc_score)
-print(auc)
+#print(auc)
 
 # Evaluation 70/30 split ends
 end = timeit.default_timer()
@@ -38,7 +40,7 @@ time_for_split_eval = end - start
 start = timeit.default_timer()
 
 kf = KFold(n_splits=10, shuffle=True)
-fold_scores = cross_val_score(clf, train.drop("class", axis=1), train["class"],
+fold_scores = cross_val_score(clf, templ.drop("class", axis=1), templ["class"],
                               cv=10, scoring='accuracy')
 print(fold_scores)
 
@@ -47,21 +49,24 @@ end = timeit.default_timer()
 time_for_fold_eval = end - start
 
 # Visualization (no timing, why thank you I'd like a kangaroo)
-dot_data = tree.export_graphviz(clf, out_file=None,
-                                feature_names=train.drop("class", axis=1).columns.values,
-                                class_names=["Safe", "Malicious"],
+i_tree = 0
+for this_tree in clf.estimators_:
+    my_file = tree.export_graphviz(this_tree, out_file=None,
+                                feature_names=templ.drop("class", axis=1).columns.values,
+                                class_names=["acc", "good", "unacc", "vgood"],
                                 filled=True, rounded=True,
                                 special_characters=True)
-graph = graphviz.Source(dot_data)
-graph.render("images/tree",view=True)
+    graph = graphviz.Source(my_file)
+    graph.render("images/tree_" + str(i_tree), view=True)
+    i_tree = i_tree + 1
 
 # Write results to file
-dt_results = open("analysis/dt.txt", "w")
-dt_results.write("These are the Results of analyzing the Malicious_software-Dataset with the following decision Tree:\n\n" + str(clf)
+dt_results = open("analysis/rf.txt", "w")
+dt_results.write("These are the Results of analyzing the Car-evaluation-Dataset with the following decision Tree:\n\n" + str(clf)
                  + "\n\nThe following measurements were taken:"
                  + "\nConfusion matrix: \n" + str(conf_mat)
                  + "\nAccuracy: " + str(acc_score)
-                 + "\nAre under the Curve: " + str(auc)
+                 #+ "\nAre under the Curve: " + str(auc)
                  + "\n10-fold scores:\n " + str(fold_scores)
                  + "\nTraining (70/30 split) took: " + str(time_for_training)
                  + " seconds\nEvaluation (70/30 split) took: " + str(time_for_split_eval)
