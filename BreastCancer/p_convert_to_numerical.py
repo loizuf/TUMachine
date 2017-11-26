@@ -1,7 +1,7 @@
 import pandas as pd
 
-complete_test_with_ID = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.test.imput.csv")
-complete_train_with_ID = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.train.imput.csv")
+complete_test_with_ID = pd.read_csv("../datasets/Cancer/imputed/breast-cancer.shuf.test.imput.csv")
+complete_train_with_ID = pd.read_csv("../datasets/Cancer/imputed/breast-cancer.shuf.train.imput.csv")
 
 # drop ID column and convert everything to categorical data, then map numerical data on it
 ages = {'20-29': 0, '30-39': 1, '40-49': 2, '50-59': 3, '60-69': 4, '70-79': 5}
@@ -33,5 +33,5 @@ complete_test_with_ID["breast"] = complete_test_with_ID["breast"].astype('catego
 complete_test_with_ID["breast-quad"] = complete_test_with_ID["breast-quad"].astype('category').map(quad)
 complete_test_with_ID["irradiat"] = complete_test_with_ID["irradiat"].astype('category').map(rad)
 
-complete_test_with_ID.to_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.test.imput.numerical.csv")
-complete_train_with_ID.to_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.train.imput.numerical.csv")
+complete_test_with_ID.to_csv("../datasets/Cancer/imputed/breast-cancer.shuf.test.imput.numerical.csv")
+complete_train_with_ID.to_csv("../datasets/Cancer/imputed/breast-cancer.shuf.train.imput.numerical.csv")

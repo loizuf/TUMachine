@@ -1,13 +1,13 @@
 import pandas as pd
+import csv
 
 
 def fix_files_csv(file1_name, file2_name):
     file1 = open(file1_name, "r")
     file2 = open(file2_name, "w")
 
-    import csv
     for row in file1:
-        attributes = row.rstrip("\n").replace(" ", "").split(",")[:480]
+        attributes = row.replace(" ", "").split(",")
         pamwriter = csv.writer(file2)
         pamwriter.writerow(attributes)
     file1.close()
@@ -86,19 +86,20 @@ if __name__ == '__main__':
 
     fix_files_csv(file_name_train, file_name_train2)
     dataset_train = pd.read_csv(file_name_train2, low_memory=False)
-    preprocess_dataset(dataset_train)
+    dataset_train = preprocess_dataset(dataset_train)
 
-    file_name_test = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.shuf.5000.train.csv"
+    file_name_test = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.shuf.5000.test.csv"
     file_name_test2 = file_name_test[:-4] + "2.csv"
 
     fix_files_csv(file_name_test, file_name_test2)
     dataset_test = pd.read_csv(file_name_test2, low_memory=False)
-    preprocess_dataset(dataset_test)
+    dataset_test = preprocess_dataset(dataset_test)
     ################
     attributes_and = find_attributes_and(dataset_train, dataset_test)
 
+    target_b = dataset_train['TARGET_B']
     dataset_train = use_only_and_attributes(dataset_train, attributes_and)
-    dataset_train['TARGET_B'] = dataset_train['TARGET_B']
+    dataset_train['TARGET_B'] = target_b
 
     dataset_test = use_only_and_attributes(dataset_test, attributes_and)
     ######################
