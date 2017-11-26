@@ -86,14 +86,14 @@ if __name__ == '__main__':
 
     fix_files_csv(file_name_train, file_name_train2)
     dataset_train = pd.read_csv(file_name_train2, low_memory=False)
-    preprocess_dataset(dataset_train)
+    dataset_train = preprocess_dataset(dataset_train)
 
     file_name_test = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.shuf.5000.train.csv"
     file_name_test2 = file_name_test[:-4] + "2.csv"
 
     fix_files_csv(file_name_test, file_name_test2)
     dataset_test = pd.read_csv(file_name_test2, low_memory=False)
-    preprocess_dataset(dataset_test)
+    dataset_test = preprocess_dataset(dataset_test)
     ################
     attributes_and = find_attributes_and(dataset_train, dataset_test)
 
