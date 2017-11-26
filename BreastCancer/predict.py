@@ -2,8 +2,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 import timeit
 
-test = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.test.imput.csv")
-train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.train.imput.csv")
+test = pd.read_csv("../datasets/Cancer/imputed/breast-cancer.shuf.test.imput.csv")
+train = pd.read_csv("../datasets/Cancer/imputed/breast-cancer.shuf.train.imput.csv")
 
 templ_train = pd.get_dummies(train).drop(["ID", "Class_no-recurrence-events"], axis=1)
 templ_test = pd.get_dummies(test).drop("ID", axis=1)
