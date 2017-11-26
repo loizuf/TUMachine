@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
 from sklearn.model_selection import KFold
 
-test_complete_with_ID = pd.read_csv("G:/OrderForLinux/Universitaet/Wien/3.Semester/Machine_Learning/Cancer/cleaning/breast-cancer.shuf.test.complete.csv")
-test_missing_quads_with_ID = pd.read_csv("G:/OrderForLinux/Universitaet/Wien/3.Semester/Machine_Learning/Cancer/cleaning/breast-cancer.shuf.test.missing_quad.csv")
+test_complete_with_ID = pd.read_csv("../Cancer/cleaning/breast-cancer.shuf.test.complete.csv")
+test_missing_quads_with_ID = pd.read_csv("../Cancer/cleaning/breast-cancer.shuf.test.missing_quad.csv")
 
 # drop ID column and convert everything to categorical data, then map numerical data on it
 ages = {'20-29': 0, '30-39': 1, '40-49': 2, '50-59': 3, '60-69': 4, '70-79': 5}

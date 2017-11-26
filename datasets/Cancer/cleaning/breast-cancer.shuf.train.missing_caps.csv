@@ -1,0 +1,5 @@
+"ID","age","menopause","tumor-size","inv-nodes","node-caps","deg-malig","breast","breast-quad","irradiat","Class"
+21,"50-59","lt40","20-24","0-2",?,"1","left","left_low","no","recurrence-events"
+150,"50-59","ge40","30-34","9-11",?,"3","left","left_up","yes","no-recurrence-events"
+55,"40-49","premeno","25-29","0-2",?,"2","left","right_low","yes","no-recurrence-events"
+265,"50-59","ge40","30-34","9-11",?,"3","left","left_low","yes","no-recurrence-events"

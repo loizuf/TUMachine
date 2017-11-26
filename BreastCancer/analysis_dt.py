@@ -5,8 +5,8 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
 import timeit
 
-# test = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.test.imput.numerical.csv")
-train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.train.imput.csv")
+# test = pd.read_csv("../imputed/breast-cancer.shuf.test.imput.numerical.csv")
+train = pd.read_csv("../Cancer/imputed/breast-cancer.shuf.train.imput.csv")
 templ = pd.get_dummies(train).drop("Class_no-recurrence-events", axis=1)
 X_train, X_test, y_train, y_test = train_test_split(templ.drop("Class_recurrence-events", axis=1),
                                                     templ["Class_recurrence-events"], test_size=0.3, shuffle=True)
