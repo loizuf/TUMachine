@@ -31,7 +31,7 @@ sub = open("submission.csv", "w")
 sub.write("\"ID\",\"Class\"\n")
 for i in range(len(predictions)):
     if (predictions[i] == 0):
-        sub.write(str(test["ID"][i]) + ",\"no-recurrence-event\"\n")
+        sub.write(str(test["ID"][i]) + ",\"no-recurrence-events\"\n")
     else:
-        sub.write(str(test["ID"][i]) + ",\"recurrence-event\"\n")
+        sub.write(str(test["ID"][i]) + ",\"recurrence-events\"\n")
 sub.close()

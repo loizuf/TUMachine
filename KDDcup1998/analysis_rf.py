@@ -7,7 +7,8 @@ from sklearn.model_selection import KFold, cross_val_score, train_test_split
 import timeit
 
 train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/KDD Cup 1998/final (categorical + numerical)/cup98ID.shuf.5000.train2.csv")
-templ = pd.get_dummies(train)
+templ = pd.get_dummies(train).drop("CONTROLN", axis=1)
+templ = templ.drop(templ.columns[0], axis=1)
 X_train, X_test, y_train, y_test = train_test_split(templ.drop("TARGET_B", axis=1),
                                                     templ["TARGET_B"], test_size=0.3, shuffle=True)
 
