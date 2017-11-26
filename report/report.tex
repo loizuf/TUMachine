@@ -83,62 +83,47 @@
 \maketitle
 
 
-\section{Datasets}
+\section{Data sets}
+
+Characteristics of our data sets can be found in Table \ref{table:datasets}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    data set & number of samples & number of dimensions & number of classes \\ \hline
+    KDD cup & 2500 & 480 & 2 \\ \hline
+    Breast cancer & 143 & 9 & 2 \\ \hline
+    Car evaluation & 1728 & 6 & 4 \\ \hline
+    Malicious programs & 373 & 513 & 2 \\
+    \hline
+  \end{tabular}
+  \caption{Characteristics of data sets}
+  \label{table:datasets}
+\end{table}
+
 
 \subsection{Dataset \textit{KDD Cup 1998}}
 Source: \url{https://www.kaggle.com/c/184702-tu-ml-ws-17-kdd-cup-1998}
-\subsubsection{Characteristics of the dataset}
-\begin{center}
-  \begin{tabular}{| c | c | c | c |}
-    \hline
-    number of samples & number of dimensions & number of classes & preprocessing needed \\ \hline
-    ?? & ?? & 2 & ?? \\
-    \hline
-  \end{tabular}
-\end{center}
-\subsubsection{Preprocessing}
+
 ...
 
-\subsection{Dataset \textit{Breast cancer}}
-Source: \url{https://www.kaggle.com/c/184702-tu-ml-ws-17-breast-cancer}
-\subsubsection{Characteristics of the dataset}
-\begin{center}
-  \begin{tabular}{| c | c | c | c |}
-    \hline
-    number of samples & number of dimensions & number of classes & preprocessing needed \\ \hline
-    ?? & ?? & 2 & ??\\
-    \hline
-  \end{tabular}
-\end{center}
-\subsubsection{Preprocessing}
-...
+\subsection{Dataset \textit{Breast cancer}\footnote{Source: \url{https://www.kaggle.com/c/184702-tu-ml-ws-17-breast-cancer}}}
+
+In training set there were four instances which were missing value for the same attribute. In test set there was only one instance which was missing value, although for a different attribute. There was no instance which was missing values for two or more attributes.
+
+Using a \textit{multinomial logistic regression} method (80/20 split) we filled up missing values.
+
+For classifiers which work only with numerical data, we did that by simply mapping categorical (string) values to numerical or mapping interval of years to one number, but keeping the ordering. E.g. Interval 10-19 is mapped to 1, 20-29 is mapped to 2 etc.
 
 \subsection{Dataset \textit{Car evaluation}}
 Source: \url{https://archive.ics.uci.edu/ml/datasets/car+evaluation}
-\subsubsection{Characteristics of the dataset}
-\begin{center}
-  \begin{tabular}{| c | c | c | c |}
-    \hline
-    number of samples & number of dimensions & number of classes & preprocessing needed \\ \hline
-    1728 & 6 & 4 & yes \\
-    \hline
-  \end{tabular}
-\end{center}
-\subsubsection{Preprocessing}
+
 ...
 
 \subsection{Dataset \textit{Detect Malicious Executable(AntiVirus)}}
 Source: \url{https://archive.ics.uci.edu/ml/datasets/Detect+Malacious+Executable(AntiVirus)}
-\subsubsection{Characteristics of the dataset}
-\begin{center}
-  \begin{tabular}{| c | c | c | c |}
-    \hline
-    number of samples & number of dimensions & number of classes & preprocessing needed \\ \hline
-    373 & 513 & 2 & yes \\
-    \hline
-  \end{tabular}
-\end{center}
-\subsubsection{Preprocessing}
+
 ...
 
 
@@ -282,31 +267,30 @@ Confusion matrix using the best settings is in the Table \ref{table:confusionMat
   \end{table}
 
 \subsection{Random Forest}
-Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixRFKDD}. 
+Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixRFKDD}.
 \begin{table}
   \centering
-  \begin{tabular}{| c | c | c |}
+  \begin{tabular}{| c | c |}
     \hline
-    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
-    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
-    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+    35 & 0 \\ \hline
+    7 & 1  \\
     \hline
   \end{tabular}
   \caption{Confusion matrix using the best settings (RF - KDD Cup 1998)}
   \label{table:confusionMatrixRFKDD}
   \end{table}
   
-  Performance measures with different parameters are in the Table \ref{table:RFKDD}.
+   We splitted our training/test set to 70/30. Results with different parameters are in table \ref{table:RFKDD}. Parameters which we changed were maximum depth of tree (\textit{maxd}) and minimum number of samples per leaf (\textit{mins}).
   
   \begin{table}
   \centering
   \begin{tabular}{| c | c | c | c | c |}
     \hline
-     		-	   & Accuracy & 	ACU 	& Training time [min] & Evaluation time [min] \\ \hline
-    param1, param2 &  1 	  &     1		& 		1			  & 		1 		\\ \hline
-    param1, param2 & 	1	  & 	1 		& 		1			  &			1 		\\ \hline
-    param1, param2 & 	2	  & 	1		& 		1			  &			1		\\ \hline
-    param1, param2 &  1       & 	1		& 		1			  &			1			\\
+     		-	   & Accuracy & 	ACU 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    $maxd=10, mins=15$ &  0.744 	  &    0		& 		0.015			  & 		0.023 		\\ \hline
+    $maxd=5, mins=10$ & 	0.744	  & 255.5 		& 		0.015			  &			0.022 		\\ \hline
+    $maxd=10, mins=10$ & 	0.790	  & 	128.5		& 		0.014			  &			0.023		\\ \hline
+    $maxd=3, mins=3$ &  0.837       & 	128.0		& 		0.015		  &			0.024			\\
     \hline
   \end{tabular}
   \caption{Performance measures with different parameters (RF - KDD Cup 1998)}
