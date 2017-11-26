@@ -8,7 +8,6 @@ import timeit
 # test = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.test.imput.numerical.csv")
 train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.train.imput.csv")
 templ = pd.get_dummies(train).drop("Class_no-recurrence-events", axis=1)
-print(templ.head)
 X_train, X_test, y_train, y_test = train_test_split(templ.drop("Class_recurrence-events", axis=1),
                                                     templ["Class_recurrence-events"], test_size=0.3, shuffle=True)
 

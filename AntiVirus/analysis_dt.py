@@ -5,7 +5,6 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
 import timeit
 
-# test = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Cancer/imputed/breast-cancer.shuf.test.imput.numerical.csv")
 train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Malicious_Software/dataset_cleaned_minimal.csv")
 X_train, X_test, y_train, y_test = train_test_split(train.drop("class", axis=1),
                                                     train["class"], test_size=0.3, shuffle=True)
