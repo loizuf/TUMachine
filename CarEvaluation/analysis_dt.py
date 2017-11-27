@@ -7,8 +7,7 @@ import timeit
 
 from sklearn.model_selection import cross_val_predict
 
-train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Car evaluation/car.data.csv", header=None, names=["buying", "maint", "doors", "persons", "lug_boot", "safety", "class"])
-templ = pd.get_dummies(train, columns=["buying", "maint", "doors", "persons", "lug_boot", "safety"])
+train = pd.read_csv("C:/Users/Soeren/Dropbox/Machine_Learning/Car evaluation/car.data2.csv")
 
 clf = tree.DecisionTreeClassifier(min_impurity_decrease=0.0005, min_samples_leaf=10)
 
@@ -16,10 +15,10 @@ clf = tree.DecisionTreeClassifier(min_impurity_decrease=0.0005, min_samples_leaf
 start = timeit.default_timer()
 
 kf = KFold(n_splits=10, shuffle=True)
-y_pred = cross_val_predict(clf, templ.drop("class", axis=1), templ["class"],cv=10)
+y_pred = cross_val_predict(clf, train.drop("class", axis=1), train["class"],cv=10)
 
 fold_scores = accuracy_score(train["class"], y_pred)
-auc = metrics.auc(train["class"], y_pred)
+#auc = metrics.auc(train["class"], y_pred, reorder=True)
 conf_mat = confusion_matrix(train["class"], y_pred)
 
 # Evaluation 10-fold cross ends
@@ -40,6 +39,6 @@ dt_results = open("analysis/dt.txt", "w")
 dt_results.write("These are the Results of analyzing the Car-evaluation-Dataset with the following decision Tree:\n\n" + str(clf)
                  + "\n\nThe following measurements were taken:"
                  + "\nConfusion matrix (added 10-fold): \n" + str(conf_mat)
-                 + "\nAre under the Curve: " + str(auc)
+                 #+ "\nAre under the Curve: " + str(auc)
                  + "\n10-fold score: " + str(fold_scores)
                  + "\nProcess took: " + str(time_for_fold_eval) + " seconds")
