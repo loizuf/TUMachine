@@ -1,7 +1,8 @@
 import time
 
 import pandas as pd
-from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn import metrics
+from sklearn.metrics import confusion_matrix, accuracy_score, auc
 from sklearn.model_selection import  cross_val_predict
 
 def write_results(y_true, predictions,method):
@@ -39,6 +40,11 @@ def do_classification(clf):
     acc_score = accuracy_score(dataset_train["Class"], y_pred)
     print("Confusion matrix 10-fold")
     print(conf_mat)
-    print("ACC_score",acc_score)
+    print("ACC: ", acc_score)
+    try:
+        auc_score = metrics.auc(dataset_train["Class"], y_pred)
+    except:
+        auc_score = metrics.auc(dataset_train["Class"], y_pred, reorder=True)
 
+    print("AUC: ", auc_score)
     return dataset_test["ID"], predictions

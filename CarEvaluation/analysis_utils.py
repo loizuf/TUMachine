@@ -2,7 +2,7 @@ import time
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn.metrics import confusion_matrix, accuracy_score, auc
 from sklearn.model_selection import KFold, cross_val_predict, train_test_split
 
 def do_classification(clf):
@@ -28,7 +28,12 @@ def do_classification(clf):
 
     conf_mat = confusion_matrix(dataset["class"], y_pred)
     acc_score = accuracy_score(dataset["class"], y_pred)
+    try:
+        auc_score = auc(y_test, predictions)
+    except:
+        auc_score = auc(y_test, predictions, reorder=True)
     print(conf_mat)
-    print(acc_score)
+    print("ACC: ", acc_score)
+    print("AUC:", auc_score)
     # print(auc)
 

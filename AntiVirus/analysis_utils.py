@@ -28,9 +28,7 @@ def do_classification(clf):
 
     conf_mat = confusion_matrix(dataset["class"], y_pred)
     acc_score = accuracy_score(dataset["class"], y_pred)
-    auc_score = auc(y_test, predictions, reorder=True)
     print(conf_mat)
     print("ACC: ",acc_score)
-    print("under: ",auc_score)
     # print(auc)
 

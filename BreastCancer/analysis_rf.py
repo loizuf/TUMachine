@@ -19,6 +19,7 @@ start = timeit.default_timer()
 kf = KFold(n_splits=10, shuffle=True)
 y_pred = cross_val_predict(clf, templ.drop("Class_recurrence-events", axis=1), templ["Class_recurrence-events"],cv=10)
 
+pri
 fold_scores = accuracy_score(templ["Class_recurrence-events"], y_pred)
 auc = metrics.auc(templ["Class_recurrence-events"], y_pred)
 conf_mat = confusion_matrix(templ["Class_recurrence-events"], y_pred)
