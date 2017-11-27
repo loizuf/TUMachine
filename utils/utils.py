@@ -1,5 +1,4 @@
-from pandas.core.dtypes import CategoricalDtype
-
+from pandas.api.types import CategoricalDtype
 
 def prepare_one_hot_enc(dataset_train, dataset_test):
     for att in dataset_train.select_dtypes(include=['object']):
