@@ -3,13 +3,13 @@ import time
 
 import numpy as np
 import pandas as pd
-
+from sklearn import metrics
 
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import  cross_val_predict
 
 def write_subms(dataset_y, predictions, method_name):
-    subm = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.predictions_" + method_name + ".csv"
+    subm = "cup98ID.predictions_" + method_name + ".csv"
     file_subm = open(subm, "w")
     pamwriter = csv.writer(file_subm)
 
@@ -69,5 +69,12 @@ def do_classification(clf, discretize_flag=False):
     acc_score = accuracy_score(dataset_train["TARGET_B"], y_pred)
     print("Confusion matrix 10-fold")
     print(conf_mat)
-    print("ACC_score",acc_score)
+    print("ACC_score:", acc_score)
+
+    try:
+        auc_score = metrics.auc(dataset_train["TARGET_B"], y_pred)
+    except:
+        auc_score = metrics.auc(dataset_train["TARGET_B"], y_pred, reorder=True)
+
+    print("AUC: ", auc_score)
     return dataset_test["CONTROLN"], predictions

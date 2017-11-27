@@ -175,14 +175,13 @@ In all our experiments, we have the same \textbf{Null hypothesis: both classifie
 \section{Dataset \textit{KDD Cup 1998}}
 
 \subsection{Naive Bayes}
-Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixBayesKDD}. Performance measures with different parameters are in the Table \ref{table:BayesKDD}.
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixBayesKDD}. Performance measures with different parameters are in the Table \ref{table:BayesKDD}.
 \begin{table}
   \centering
-  \begin{tabular}{| c | c | c |}
+  \begin{tabular}{| c | c |}
     \hline
-    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
-    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
-    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+    1012 & 1386 \\ \hline
+    32 & 70 \\
     \hline
   \end{tabular}
   \caption{Confusion matrix using the best settings (Naive Bayes - KDD Cup 1998)}
@@ -206,14 +205,13 @@ Confusion matrix using the best settings is in the Table \ref{table:confusionMat
   
 \subsection{Support Vector Machine - SVM}
 
-Confusion matrix using the best performance is in the Table \ref{table:confusionMatrixSVMKDD}. Performance measures with different parameters are in the Table \ref{table:SVMKDD}.
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixSVMKDD}. Performance measures with different parameters are in the Table \ref{table:SVMKDD}. Time measure are done on 70/30 set, but accuracy and ACU are calculated on 10-fold. In confusion matrix is data with $C = 1.0$.
 \begin{table}
   \centering
-  \begin{tabular}{| c | c | c |}
+  \begin{tabular}{| c | c |}
     \hline
-    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
-    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
-    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+   		2397 & 1 \\ \hline
+    	102 & 0\\
     \hline
   \end{tabular}
   \caption{Confusion matrix using the best settings (SVM - KDD Cup 1998)}
@@ -224,11 +222,10 @@ Confusion matrix using the best performance is in the Table \ref{table:confusion
   \centering
   \begin{tabular}{| c | c | c | c | c |}
     \hline
-     		-	   & Accuracy & 	ACU 	& Training time [min] & Evaluation time [min] \\ \hline
-    param1, param2 &  1 	  &     1		& 		1			  & 		1 		\\ \hline
-    param1, param2 & 	1	  & 	1 		& 		1			  &			1 		\\ \hline
-    param1, param2 & 	2	  & 	1		& 		1			  &			1		\\ \hline
-    param1, param2 &  1       & 	1		& 		1			  &			1			\\
+     		-	   & Accuracy & 	AUC 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    $C = 1.0$ &  0.9588	  	&     0.5		& 		14.5			  & 		12.5 		\\ \hline
+    $C = 2.0$ & 	0.956	  & 	0.5 		& 		15.92			  &			13.2 		\\ \hline
+    $C = 0.5$ & 		  0.9592 		& 		0			  &			13.16 & 11.43		\\ 
     \hline
   \end{tabular}
   \caption{Performance measures with different parameters (SVM Bayes - KDD Cup 1998)}
@@ -237,14 +234,13 @@ Confusion matrix using the best performance is in the Table \ref{table:confusion
 
 \subsection{Decision Tree}
 
-Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixDTKDD}. Performance measures with different parameters are in the Table \ref{table:DTKDD}.
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixDTKDD}. Performance measures with different parameters are in the Table \ref{table:DTKDD}. Time measure are done on 70/30 set, but accuracy and ACU are calculated on 10-fold. In confusion matrix is data with $C = 1.0$. Parameters tuned: max depth of the tree ($maxd$) and minimum samples per leaf ($minl$).
 \begin{table}
   \centering
-  \begin{tabular}{| c | c | c |}
+  \begin{tabular}{| c | c |}
     \hline
-    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
-    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
-    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+    2379 & 19  \\ \hline
+    101 & 1 \\
     \hline
   \end{tabular}
   \caption{Confusion matrix using the best settings (DT - KDD Cup 1998)}
@@ -255,11 +251,10 @@ Confusion matrix using the best settings is in the Table \ref{table:confusionMat
   \centering
   \begin{tabular}{| c | c | c | c | c |}
     \hline
-     		-	   & Accuracy & 	ACU 	& Training time [min] & Evaluation time [min] \\ \hline
-    param1, param2 &  1 	  &     1		& 		1			  & 		1 		\\ \hline
-    param1, param2 & 	1	  & 	1 		& 		1			  &			1 		\\ \hline
-    param1, param2 & 	2	  & 	1		& 		1			  &			1		\\ \hline
-    param1, param2 &  1       & 	1		& 		1			  &			1			\\
+     		-	   & Accuracy & 	AUC 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    $minl=3, maxd=7$ &  0.9592 	  &     0.5		& 		0.1			  & 		0.03 		\\ \hline
+    $minl=2, maxd=2$ & 	0.9588	  & 	0.5		& 		0.1			  &			0.03 		\\ \hline
+    $minl=100, maxd=12$ &  0.9592 	  &     0		& 		0.1			  & 		0.03 		\\ \hline
     \hline
   \end{tabular}
   \caption{Performance measures with different parameters (DT - KDD Cup 1998)}
@@ -267,36 +262,33 @@ Confusion matrix using the best settings is in the Table \ref{table:confusionMat
   \end{table}
 
 \subsection{Random Forest}
-Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixRFKDD}.
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixRFKDD}. Performance measures with different parameters are in the Table \ref{table:RFKDD}. Time measure are done on 70/30 set, but accuracy and ACU are calculated on 10-fold. In confusion matrix is data with $C = 1.0$. Parameters tuned: max depth of the tree ($maxd$) and minimum samples per leaf ($minl$).
 \begin{table}
   \centering
   \begin{tabular}{| c | c |}
     \hline
-    35 & 0 \\ \hline
-    7 & 1  \\
+    2398 & 0  \\ \hline
+    102 & 0 \\
     \hline
   \end{tabular}
   \caption{Confusion matrix using the best settings (RF - KDD Cup 1998)}
-  \label{table:confusionMatrixRFKDD}
+  \label{table:confusionMatrixDTKDD}
   \end{table}
-  
-   We splitted our training/test set to 70/30. Results with different parameters are in table \ref{table:RFKDD}. Parameters which we changed were maximum depth of tree (\textit{maxd}) and minimum number of samples per leaf (\textit{mins}).
   
   \begin{table}
   \centering
   \begin{tabular}{| c | c | c | c | c |}
     \hline
-     		-	   & Accuracy & 	ACU 	& Training time [sec] & Evaluation time [sec] \\ \hline
-    $maxd=10, mins=15$ &  0.744 	  &    0		& 		0.015			  & 		0.023 		\\ \hline
-    $maxd=5, mins=10$ & 	0.744	  & 255.5 		& 		0.015			  &			0.022 		\\ \hline
-    $maxd=10, mins=10$ & 	0.790	  & 	128.5		& 		0.014			  &			0.023		\\ \hline
-    $maxd=3, mins=3$ &  0.837       & 	128.0		& 		0.015		  &			0.024			\\
+     		-	   & Accuracy & 	AUC 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    $minl=3, maxd=7$ &  0.9592 	  &     0		& 		0.13	  & 		0.03 		\\ \hline
+    $minl=13, maxd=3$ & 	0.9592 	  &     0		& 		0.12		  & 		0.04	\\ \hline
+    $minl=1, maxd=35$ & 	0.9592	  & 	1		& 		0.2		  &			0.03		\\ \hline
+    $minl=100, maxd=2$ &  0.9592	  & 	1		& 		0.05		  &			0.03				\\
     \hline
   \end{tabular}
-  \caption{Performance measures with different parameters (RF - KDD Cup 1998)}
-  \label{table:RFKDD}
+  \caption{Performance measures with different parameters (DT - KDD Cup 1998)}
+  \label{table:DTKDD}
   \end{table}
-  
 
 \subsection{Comparison of classifiers}
 Comparison of classifiers (using the best settings for every classifier) is done using the paired t-Test and $p$-values can be found in a Table \ref{table:comparisonKDD}.
