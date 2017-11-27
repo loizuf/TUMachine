@@ -1,27 +1,9 @@
-import csv
+import KDDcup1998.utils_cup as utils_cup
 import time
 import pandas as pd
 from sklearn import svm
 
 import utils.utils as utils
-
-
-def write_subms(dataset_test, predictions):
-    subm = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.predictions.csv"
-    file_subm = open(subm, "w")
-    pamwriter = csv.writer(file_subm)
-
-    ids = dataset_test["CONTROLN"]
-    pamwriter.writerow(["CONTROLN", "TARGET_B"])
-    for index in range(len(predictions)):
-        if predictions[index] == 1:
-            print("1")
-
-        # print([ids[index],predictions[index]])
-        pamwriter.writerow([ids[index], predictions[index]])
-
-    file_subm.close()
-
 
 if __name__ == '__main__':
     file_name = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.shuf.5000.train2.csv"
@@ -51,4 +33,4 @@ if __name__ == '__main__':
     end = time.time()
     print("finished in",end-start)
 
-    write_subms(dataset_test,predictions)
+    utils_cup.write_subms(dataset_test,predictions, "svm")
