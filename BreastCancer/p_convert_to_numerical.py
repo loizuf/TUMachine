@@ -33,5 +33,5 @@ complete_test_with_ID["breast"] = complete_test_with_ID["breast"].astype('catego
 complete_test_with_ID["breast-quad"] = complete_test_with_ID["breast-quad"].astype('category').map(quad)
 complete_test_with_ID["irradiat"] = complete_test_with_ID["irradiat"].astype('category').map(rad)
 
-complete_test_with_ID.to_csv("../datasets/Cancer/imputed/breast-cancer.shuf.test.imput.numerical.csv")
-complete_train_with_ID.to_csv("../datasets/Cancer/imputed/breast-cancer.shuf.train.imput.numerical.csv")
+complete_test_with_ID.to_csv("../datasets/Cancer/imputed/breast-cancer.shuf.test.imput.numerical.csv", index=False)
+complete_train_with_ID.to_csv("../datasets/Cancer/imputed/breast-cancer.shuf.train.imput.numerical.csv", index=False)

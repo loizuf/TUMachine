@@ -1,0 +1,1 @@
+in the minimal dataset 1 means MALICIOUS and 0 means NOT MALICIOUS in the "class" column

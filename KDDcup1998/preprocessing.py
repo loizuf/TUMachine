@@ -1,6 +1,7 @@
 import csv
 
 import pandas as pd
+from pandas.api.types import CategoricalDtype
 
 
 def fix_files_csv(file1_name, file2_name):
@@ -16,6 +17,9 @@ def fix_files_csv(file1_name, file2_name):
 
 
 def preprocess_dataset(dataset):
+    #removeID
+    dataset.drop('CONTROLN', axis=1, inplace=True)
+
     # remove attributes with more then 40% of missing values
     # keep if you have more then 60% of values
     feasible_columns = dataset.count() > 0.60 * len(dataset.index)
@@ -77,16 +81,34 @@ def impute_data(dataset):
 def write_to_csv(dataset, csv_file):
     dataset.to_csv(csv_file, index=False, encoding='utf-8')
 
-def prepare_normalize(dataset):
+def pre_normalize(dataset):
     dataset["ZIP"] = dataset["ZIP"].astype("object")
     if "TARGET_B" in dataset:
         dataset["TARGET_B"] = dataset["TARGET_B"].astype("object")
     if "CONTROLN" in dataset:
         dataset_test["CONTROLN"] = dataset_test["CONTROLN"].astype("object")
 
+def post_normalize(dataset):
+    dataset["ZIP"] = dataset["ZIP"].astype("int64")
+    if "TARGET_B" in dataset:
+        dataset["TARGET_B"] = dataset["TARGET_B"].astype("int64")
+    if "CONTROLN" in dataset:
+        dataset_test["CONTROLN"] = dataset_test["CONTROLN"].astype("int64")
+
+
 def normalize_dataset(dataset):
     numeric_columns = dataset.select_dtypes(exclude=['object']).columns.values
     dataset[numeric_columns] = dataset.select_dtypes(exclude=['object']).apply(lambda x: (x - x.mean()) / x.std())
+
+
+def prepare_one_hot_enc(dataset_train, dataset_test):
+    for att in dataset_train.select_dtypes(include=['object']):
+        all_categories = set(dataset_train[att].unique())
+        all_categories.update(set(dataset_test[att].unique()))
+        dtype = CategoricalDtype(ordered=False, categories=all_categories)
+        dataset_train[att] = dataset_train[att].astype(dtype)
+        dataset_test[att] = dataset_test[att].astype(dtype)
+
 
 if __name__ == '__main__':
     file_name_train = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.shuf.5000.train.csv"
@@ -94,6 +116,7 @@ if __name__ == '__main__':
 
     fix_files_csv(file_name_train, file_name_train2)
     dataset_train = pd.read_csv(file_name_train2, low_memory=False)
+    target_b = dataset_train['TARGET_B']
     dataset_train = preprocess_dataset(dataset_train)
 
     file_name_test = "/home/felentovic/Documents/TUWien/Semester_3/Machine_Learning/Excercise1/cup98ID.shuf.5000.test.csv"
@@ -101,26 +124,33 @@ if __name__ == '__main__':
 
     fix_files_csv(file_name_test, file_name_test2)
     dataset_test = pd.read_csv(file_name_test2, low_memory=False)
+    controln = dataset_test["CONTROLN"]
     dataset_test = preprocess_dataset(dataset_test)
     ################
     attributes_and = find_attributes_and(dataset_train, dataset_test)
 
-    target_b = dataset_train['TARGET_B']
     dataset_train = use_only_and_attributes(dataset_train, attributes_and)
-    dataset_train['TARGET_B'] = target_b
     dataset_test = use_only_and_attributes(dataset_test, attributes_and)
-    # drop ID attribute
-    dataset_train.drop('CONTROLN', axis=1, inplace=True)
+
     ######################
     # imputation
     dataset_test = impute_data(dataset_test)
     dataset_train = impute_data(dataset_train)
 
-    prepare_normalize(dataset_train)
+    pre_normalize(dataset_train)
     normalize_dataset(dataset_train)
+    post_normalize(dataset_train)
 
-    prepare_normalize(dataset_test)
+    pre_normalize(dataset_test)
     normalize_dataset(dataset_test)
+    post_normalize(dataset_test)
+    
+    prepare_one_hot_enc(dataset_test,dataset_train)
+    dataset_test = pd.get_dummies(dataset_test)
+    dataset_train = pd.get_dummies(dataset_train)
+
+    dataset_train['TARGET_B'] = target_b
+    dataset_test["CONTROLN"] = controln
 
     write_to_csv(dataset_train, file_name_train2)
     write_to_csv(dataset_test, file_name_test2)
