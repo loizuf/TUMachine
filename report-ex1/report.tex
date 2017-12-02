@@ -1,0 +1,711 @@
+\documentclass[11pt,a4paper,titlepage]{article}
+\usepackage[a4paper]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lipsum}
+\usepackage{hyperref}
+
+\usepackage{amsmath, amssymb, amsfonts, amsthm, fouriernc, mathtools}
+% mathtools for: Aboxed (put box on last equation in align envirenment)
+\usepackage{microtype} %improves the spacing between words and letters
+
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{epstopdf}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% COLOR DEFINITIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[svgnames]{xcolor} % Enabling mixing colors and color's call by 'svgnames'
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{MyColor1}{rgb}{0.2,0.4,0.6} %mix personal color
+\newcommand{\textb}{\color{Black} \usefont{OT1}{lmss}{m}{n}}
+\newcommand{\blue}{\color{MyColor1} \usefont{OT1}{lmss}{m}{n}}
+\newcommand{\blueb}{\color{MyColor1} \usefont{OT1}{lmss}{b}{n}}
+\newcommand{\red}{\color{LightCoral} \usefont{OT1}{lmss}{m}{n}}
+\newcommand{\green}{\color{Turquoise} \usefont{OT1}{lmss}{m}{n}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FONTS AND COLORS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    SECTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlesec}
+\usepackage{sectsty}
+%%%%%%%%%%%%%%%%%%%%%%%%
+%set section/subsections HEADINGS font and color
+\sectionfont{\color{MyColor1}}  % sets colour of sections
+\subsectionfont{\color{MyColor1}}  % sets colour of sections
+
+%set section enumerator to arabic number (see footnotes markings alternatives)
+\renewcommand\thesection{\arabic{section}.} %define sections numbering
+\renewcommand\thesubsection{\thesection\arabic{subsection}} %subsec.num.
+
+%define new section style
+\newcommand{\mysection}{
+\titleformat{\section} [runin] {\usefont{OT1}{lmss}{b}{n}\color{MyColor1}} 
+{\thesection} {3pt} {} } 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		CAPTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{caption}
+\usepackage{subcaption}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\captionsetup[figure]{labelfont={color=Turquoise}}
+
+
+\makeatletter
+\let\reftagform@=\tagform@
+\def\tagform@#1{\maketag@@@{(\ignorespaces\textcolor{red}{#1}\unskip\@@italiccorr)}}
+\renewcommand{\eqref}[1]{\textup{\reftagform@{\ref{#1}}}}
+\makeatother
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREPARE TITLE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\blue Machine Learning \\
+\blueb Classification exercise report - Group 27}
+\author{Borna Feldsar \\ Martin Matak \\ Soeren Nickel}
+\date{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{document}
+\maketitle
+
+
+\section{Data sets}
+
+Characteristics of our data sets can be found in Table \ref{table:datasets}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    data set & number of samples & number of dimensions & number of classes \\ \hline
+    KDD cup & 2500 & 480 & 2 \\ \hline
+    Breast cancer & 143 & 9 & 2 \\ \hline
+    Car evaluation & 1728 & 6 & 4 \\ \hline
+    Malicious programs & 373 & 513 & 2 \\
+    \hline
+  \end{tabular}
+  \caption{Characteristics of data sets}
+  \label{table:datasets}
+\end{table}
+
+
+\subsection{Dataset \textit{KDD Cup 1998} \footnote{Source: \url{https://www.kaggle.com/c/184702-tu-ml-ws-17-kdd-cup-1998}}}
+In training set we dropped $CONTROLN$ attribute since it is used as $ID$, we removed attributes with more then 40\% of missing values. Furthermore we cleaned $ZIP$ attribute from noise, there were 144 values with $"-"$. We removed the attributes with sparse distribution, e.g. attribute $MDMAUD\_F$ has $"X"$ value 2492 times, value \textit{"1"}  4 times, value \textit{"5"} and value \textit{"2"} 2 times. 
+
+Since data is not well distributed,see Figure \ref{fig:kdd_cup} we normalized numerical data with Standard score and ffor categorical data we did one-hot encoding.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=110mm]{kddcup.png}
+    \caption{Example of bad distribution in some attributes}
+    \label{fig:kdd_cup}
+\end{figure}
+\subsection{Dataset \textit{Breast cancer}\footnote{Source: \url{https://www.kaggle.com/c/184702-tu-ml-ws-17-breast-cancer}}}
+
+In training set there were four instances which were missing value for the same attribute. In test set there was only one instance which was missing value, although for a different attribute. There was no instance which was missing values for two or more attributes.
+Using a \textit{multinomial logistic regression} method (80/20 split) we filled up missing values.
+
+For classifiers which work only with numerical data, we did that by simply mapping categorical (string) values to numerical or mapping interval of years to one number, but keeping the ordering. E.g. Interval 10-19 is mapped to 1, 20-29 is mapped to 2 etc.
+
+
+
+\subsection{Dataset \textit{Car evaluation}\footnote{Source: \url{https://archive.ics.uci.edu/ml/datasets/car+evaluation}}}
+
+Data is good distributed, there is similar number of instances in dataset for each value of varible $X$, see Figure \ref{fig:ced_density} . There is no noise present. Data is categorical and comparable so it is converted to numerical by mapping its values to numbers in a way that if variable can have values $low, med, high$ it is mapped to numbers $0,1,2$ respectively.
+
+\begin{figure}
+\includegraphics[width=120mm]{car_hist.png}
+\caption{Data histograms in Car Evaluation Data}
+\label{fig:ced_density}
+\end{figure}
+
+\subsection{Dataset \textit{Detect Malicious Executable(AntiVirus)}\footnote{Source: \url{https://archive.ics.uci.edu/ml/datasets/Detect+Malacious+Executable(AntiVirus)}}}
+
+All of the attributes are binary. Since in original are present only the attributes which has value "1"  we added all of the other attributes and set theirs value to "0". There were some attributes with name bigger than 513 and since in description of dataset it is stated that the biggest attribute is 513 we just omitted them. Distribution of the data is not balanced.
+
+\section{Classifiers}
+We picked four different classifiers: Naive Bayes, SVM, Decision Tree and Random Forest. Below is explained our motivation why we decided to take those four classifiers.
+
+\subsection{Naive Bayes}
+Classifier which comes from family of simple probabilistic classifiers based on applying Bayes' theorem with strong (naive) independence assumptions between the features. Although it's mostly used for working with text classification, we picked it as one of our four classifiers. We believe that the conditional independence assumption actually holds and that's why we picked this classifier. Moreover, we assume that it will behave well on smaller data sets. Finally, we think that training time will be shorter than for some more complex classifiers - e.g. SVM.
+
+\subsection{Support Vector Machine - SVM}
+SVM is non-probabilistic binary linear classifier which can also perform a non-linear classification using the \textit{kernel trick}, implicitly mapping their inputs into high-dimensional feature spaces. As one of the most popular and oldest \footnote{The original SVM algorithm was invented by Vladimir N. Vapnik and Alexey Ya. Chervonenkis in 1963.} classifiers which is in this area, we had to pick it to try it out and learn more about it. We expect it will behave very well on data sets with only two classes. However, we are aware that we will have to come up with a solution for classifying categorical data with this classifier. Moreover, when used to classify in more then two classes, we expect longer runtime. Finally, we expect SVM to be good at dealing with small data sets, since only support vectors and not all the samples are used to constuct the separating hyperplane. 
+
+
+\subsection{Decision Tree}
+Since we have two classifiers which we assume work well with small data sets, we had to pick one which would work good with large data sets in a reasonable time. That's why we picked this classifier. In addition to that, it is able to handle both numerical and categorical data so we will need less preprocessing when using this classifier. However, we must take care about the depth of the tree because it can easily happen that we finish up with over-complex tree that do not generalize well from the training data. That's why we don't expect it to work well with small data sets.
+
+\subsection{Random Forest}
+In order to solve the issue of overfitting of \textit{Decision Tree} classifier, we decided to take an ensamble approach. Therefore, we expect to see the difference (at least on smaller data sets) in between \textit{Random Forest} (RF) and \textit{Decision Tree} (DT) in favour of \textit{Random Forest} (RF) which is statistically significant. However, we are aware that RF models are black box and DT models are white box, but that difference for us is not important in this exercise. Finally, since RF is an ensamble approach, we assume that evaluation time will be greater than using DT as classifier.
+
+\subsection{Performance measures}
+Based on slides of this course on \href{tuwel.tuwien.ac.at}{TUWEL} and \href{http://rali.iro.umontreal.ca/rali/sites/default/files/publis/SokolovaLapalme-JIPM09.pdf}{this paper}, we decided to measure performance of our classifiers as follows.
+
+In case of \textbf{binary classification} we  provide \textit{confusion matrix} described in Table \ref{table:confusionMatrix}. Using it, we compute then \textit{accuracy} of our classifier as $\frac{tp + tn}{tp + tn + fp + fn}$ and \textit{AUC} as $\frac{1}{2} (\frac{tp}{tp + fn} + \frac{tn}{tn+fp})$.  With those measures, we will measure the overall effectiveness (avg) of the classifier and classifier’s ability to avoid false classification (AUC).
+
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    Data class & Classified as \textit{pos} & Classified as \textit{neg} \\ \hline
+    \textit{pos} & true positive (\textit{tp}) & false negative (\textit{fn}) \\ \hline
+    \textit{neg} & false positive (\textit{fp}) & true negative (\textit{tn}) \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix}
+  \label{table:confusionMatrix}
+  \end{table}
+
+Regarding the \textbf{multi-class classification}, since the greatest number of classes we have is 4, we  provide confusion matrix for every of those classes. Moreover, we provide \textit{average accuracy} of a classifier. Average accuracy is defined as average \textit{accuracy} over all of the classes, i.e. $\frac{\sum_{i=1}^{l}\frac{tp_i + tn_i}{tp_i + fp_i + tn_i + fn_i}}{l}$ where \textit{l} is number of different classes. Additionally, we provide \textit{Error rate} $\frac{\sum_{i=1}^{l}\frac{fp_i + fn_i}{tp_i + fp_i + tn_i + fn_i}}{l}$ as well. Hence, we will see the average per-class effectiveness of a classifier and the average per-class classification error.
+
+Since confusion matrix is provided, it should not be a problem for a reader to come up with some other more complex performance measure - e.g. \textit{FScore} or any other performance measure based on confusion matrix if needed. Therefore, we believe that our performance measures and confusion matrix are sufficient.
+
+\subsection{Comparison of classifiers}
+
+For every dataset, comparison in between all four classifiers is done. More specifically, \textit{statistical significance testing} is done using \textbf{paired t-Test} (on \textit{accuracy}) with $\mu_0 = 0$. We find that t-Test is convinient in our case since we use cross-validation as a model validation technique with $k=10$. 
+
+In all our experiments, we have the same \textbf{Null hypothesis: both classifiers are equal}. By convention, we reject null hypothesis and say difference is statistically significant if probability of null hypothesis less than 5\%. To obtain \textit{p-value} we used online calculator\footnote{\url{http://www.socscistatistics.com/pvalues/tdistribution.aspx}}.
+
+
+\section{Dataset \textit{KDD Cup 1998}}
+
+
+
+\subsection{Naive Bayes}
+Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixBayesKDD}. Performance measures with different parameters are in the Table \ref{table:BayesKDD}.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+     \hline
+    2166 & 232  \\ \hline
+    85 & 17 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Naive Bayes - KDD Cup 1998)}
+  \label{table:confusionMatrixBayesKDD}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	ACU 	& Training time [sec] & Evaluation time [sec] \\ \hline
+     &  0.8732 	  &     0.0		& 			0.2620		  & 	0.260	 		\\ \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (Naive Bayes - KDD Cup 1998)}
+  \label{table:BayesKDD}
+  \end{table}
+  
+\subsection{Support Vector Machine - SVM}
+
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixSVMKDD}. Performance measures with different parameters are in the Table \ref{table:SVMKDD}. Time measure are done on 70/30 set, but accuracy and ACU are calculated on 10-fold. In confusion matrix is data with $C = 1.0$.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+   		2397 & 1 \\ \hline
+    	102 & 0\\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (SVM - KDD Cup 1998)}
+  \label{table:confusionMatrixSVMKDD}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	AUC 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    $C = 1.0$ &  0.9588	  	&     0.5		& 		14.5			  & 		12.5 		\\ \hline
+    $C = 2.0$ & 	0.956	  & 	0.5 		& 		15.92			  &			13.2 		\\ \hline
+    $C = 0.5$ & 		  0.9592 		& 		0			  &			13.16 & 11.43		\\ 
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (SVM - KDD Cup 1998)}
+  \label{table:SVMKDD}
+  \end{table}
+
+\subsection{Decision Tree}
+
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixDTKDD}. Performance measures with different parameters are in the Table \ref{table:DTKDD}. Time measure are done on 70/30 set, but accuracy and ACU are calculated on 10-fold. In confusion matrix is data with $C = 1.0$. Parameters tuned: max depth of the tree ($maxd$) and minimum samples per leaf ($minl$).
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+    2379 & 19  \\ \hline
+    101 & 1 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (DT - KDD Cup 1998)}
+  \label{table:confusionMatrixDTKDD}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	AUC 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    $minl=3, maxd=7$ &  0.9592 	  &     0.5		& 		0.1			  & 		0.03 		\\ \hline
+    $minl=2, maxd=2$ & 	0.9588	  & 	0.5		& 		0.1			  &			0.03 		\\ \hline
+    $minl=100, maxd=12$ &  0.9592 	  &     0		& 		0.1			  & 		0.03 		\\ \hline
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (DT - KDD Cup 1998)}
+  \label{table:DTKDD}
+  \end{table}
+
+\subsection{Random Forest}
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixRFKDD}. Performance measures with different parameters are in the Table \ref{table:RFKDD}. Time measure are done on 70/30 set, but accuracy and ACU are calculated on 10-fold. In confusion matrix is data with $C = 1.0$. Parameters tuned: max depth of the tree ($maxd$) and minimum samples per leaf ($minl$).
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+    2088 & 310  \\ \hline
+    89 & 13 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (RF - KDD Cup 1998)}
+  \label{table:confusionMatrixRFKDD}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	AUC 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    $minl=3, maxd=7$ &  0.9592 	  &     0		& 		0.13	  & 		0.03 		\\ \hline
+    $minl=13, maxd=3$ & 	0.9592 	  &     0		& 		0.12		  & 		0.04	\\ \hline
+    $minl=1, maxd=35$ & 	0.9592	  & 	1		& 		0.2		  &			0.03		\\ \hline
+    $minl=1, maxd=2$ &  0.8404	  & 	0.5		& 		0.05		  &			0.03				\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (RF - KDD Cup 1998)}
+  \label{table:RFKDD}
+  \end{table}
+
+\subsection{Comparison of classifiers}
+Comparison of classifiers (using the best settings for every classifier) is done using the paired t-Test and $p$-values can be found in a Table \ref{table:comparisonKDD}.
+
+
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & NB 	  & 	SVM 	& DT		 & RF \\ \hline
+    NB 			   &  - 	  &     \textbf{< 0.00001}	& 		\textbf{.000018}	 & 	 \textbf{.000016}  		\\ \hline
+    SVM 		   & 	\textbf{< 0.00001}	  & 	- 		& 			.35362	 &	.06 		\\ \hline
+    DT 			   &  \textbf{.000018} &	.35362	& 		-	 &		\textbf{.0398}		\\ \hline
+    RF 			   &  \textbf{.000016}  & 	 .06	& 	\textbf{.0398}	 &	-			\\
+    \hline
+  \end{tabular}
+  \caption{Comparison of classifiers on KDD}
+  \label{table:comparisonKDD}
+  \end{table}
+
+
+
+
+\section{Dataset \textit{Breast cancer}}
+
+\subsection{Naive Bayes}
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixNaiveBayescancer}. Performance measures with different parameters are in the Table \ref{table:NaiveByescancer}. In confusion matrix is data with $alpha = 0.1$. 
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+   	   90   & 15 \\ \hline
+         25 &  13 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Naive Bayes - Breast cancer)}
+  \label{table:confusionMatrixNaiveBayescancer}
+  \end{table}
+  
+  \begin{table}
+  \centering
+ \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & AUC &Training time [sec] & Evaluation time [sec] \\ \hline
+    $alpha = 1.0$ &  0.71328 &	  0.5		& 	0.00227		  & 		0.00018 		\\ \hline
+    $C = 0.1$ & 	0.72027	 &	0.5	& 		0.00224			  &			0.00015		\\ \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (Naive Bayes Breast cancer)}
+  \label{table:NaiveByescancer}
+  \end{table}
+
+
+\subsection{Support Vector Machine - SVM}
+
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixSVMcancer}. Performance measures with different parameters are in the Table \ref{table:SVMcancer}. Time measures are irrelevant here because they are under 0.01 sec. In confusion matrix is data with $C = 1.0$. 
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+   	   102   & 3 \\ \hline
+         38 &  0 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (SVM - Breast cancer)}
+  \label{table:confusionMatrixSVMcancer}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+     		-	   & Accuracy & 	AUC  \\ \hline
+    $C = 1.0$ &  0.71	  	&     0.5	 		\\ \hline
+    $C = 2.0$ & 	0.71	  & 	0.5 			\\ \hline
+    $C = 0.5$ & 		  0.74		& 		0			\\ 
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (SVM Breast cancer)}
+  \label{table:SVMcancer}
+  \end{table}
+  
+  
+\subsection{Decision Tree}
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixDTBreast}. Performance measures with different parameters are in the Table \ref{table:DTBreast}. The breast cancer set is quite small and we didn't expect the decision tree to do well. Our suspicion was confirmed. The benefit of being fast isn't weighing up the drawbacks.
+
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+   	    99  & 6  \\ \hline
+        28  & 10 \\ 
+        \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Decision Tree - BreastCancer)}
+  \label{table:confusionMatrixDTBreast}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & AUC & Training time [sec] & Evaluation time [sec] \\ \hline
+    depth=5, leafSamples=10 &  0.7482	& 1151.5   		& 	0.0020		  & 		0.0278 		\\ \hline
+    depth=5, leafSamples=20 &  0.6643	& 1535.5 		& 	0.0015		  & 		0.0268		\\ \hline
+    depth=5, leafSamples=5 &  0.6713	& 1279.0 		& 	0.0016		  & 		0.0288 		\\ \hline
+    depth=3, leafSamples=10 &  0.7622	& 1151.5  		& 	0.0015		  & 		0.0276		\\ \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (Decision Tree - BreastCancer)}
+  \label{table:DTBreast}
+  \end{table}
+
+\subsection{Random Forest}
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixRFBreast}. Performance measures with different parameters are in the Table \ref{table:RFBreast}.
+Here it seems to be of relevance to restrict the minimum number of samples in a leaf. As said in the paragraph about the decision trees and also before, the breast cancer set is quite small and we didn't expect the random forest to do well.
+
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+   	    99  & 6  \\ \hline
+        31  & 7 \\ 
+        \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Random Forest - BreastCancer)}
+  \label{table:confusionMatrixRFBreast}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+     		-	   & Accuracy & AUC & Training time [sec] & Evaluation time [sec] \\ \hline
+     depth=5, leafSamples=10 &  0.7482	& 1152.5   		& 	0.0016		  & 		0.0275 		\\ \hline
+    depth=5, leafSamples=20 &  0.6993	& 512.0		& 	0.0017		  & 		0.0284		\\ \hline
+    depth=5, leafSamples=5 &  0.7412	& 640.5 		& 	0.0016		  & 		0.0263 		\\ \hline
+    depth=3, leafSamples=10 &  0.7412	& 1152.0  		& 	0.0015		  & 		0.0331	\\ 
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (Random Forest - BreastCancer)}
+  \label{table:RFBreast}
+  \end{table}
+  
+ 
+
+
+
+
+\section{Dataset \textit{Car evaluation}}
+
+\subsection{Naive Bayes}
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixNaiveBaycars}. Performance measures with different parameters are in the Table \ref{table:NaiveBaycars}. Time measure are done on 70/30 set, but accuracy and AUC are calculated on 10-fold. In confusion matrix is data with $alpha = 1.0$. 
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+   	    1197  & 12  &   0  &  1 \\ \hline
+          364  & 19 &   0  &  1 \\ \hline
+          25  &  32  &  0   &  8 \\ \hline
+          40  &  24  &  0   & 5 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Naive Bayesian - cars)}
+  \label{table:confusionMatrixNaiveBaycars}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+     		-	   & Accuracy & Training time [sec] & Evaluation time [sec] \\ \hline
+    $alpha = 1$ &  0.7066	  		& 	0.00137		  & 		0.00022 		\\ \hline
+    $alpha= 0.80$ & 	0.7060	 		& 		0.00134			  &			0.00020 		\\ \hline
+    
+  \end{tabular}
+  \caption{Performance measures with different parameters (Naive Bayesin cars)}
+  \label{table:NaiveBaycars}
+  \end{table}
+
+\subsection{Support Vector Machine - SVM}
+
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixSVMcars}. Performance measures with different parameters are in the Table \ref{table:SVMcars}. Time measure are done on 70/30 set, but accuracy and AUC are calculated on 10-fold. In confusion matrix is data with $C = 1.0$. 
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+   	    1146  & 60  &   0  &  4 \\ \hline
+          37  & 323 &   2  &  22 \\ \hline
+          0  &  10  &  53   &  2 \\ \hline
+          0  &  21  &  4   & 44 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (SVM - cars)}
+  \label{table:confusionMatrixSVMcars}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+     		-	   & Accuracy & Training time [sec] & Evaluation time [sec] \\ \hline
+    $C = 1.0$ &  0.90	  		& 	0.07		  & 		0.02 		\\ \hline
+    $C = 2.0$ & 	0.92	 		& 		0.08			  &			0.02 		\\ \hline
+    $C = 0.5$ & 		  0.88			  &			0.08 & 0.03		\\ 
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (SVM cars)}
+  \label{table:SVMcars}
+  \end{table}
+
+
+\subsection{Decision Tree}
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixDTcars}. Performance measures with different parameters are in the Table \ref{table:DTCarEvaln}. We can see that the results go down if we restrict the depth of the tree too much. However after a certain point increasing this bound also does not yield better results and once again is in danger of overfitting the data. In this analysis we omit the time since it was so quick that the timing doesn't give us any valuable information, as well as Area under the curve.
+
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+   	    1078  & 129  &   0  &  3 \\ \hline
+          67  & 295 &   5  &  17 \\ \hline
+          0  &  24  &  38   &  3 \\ \hline
+          0  &  24  &  3   & 42 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Decision Tree - cars)}
+  \label{table:confusionMatrixDTcars}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+     		-	   & Accuracy  	 \\ \hline
+    depth=10, leafSamples=10 &  0.8530 	  	\\ \hline
+    depth=3, leafSamples=10 & 	0.7523	   		\\ \hline
+    depth=4, leafSamples=10 & 	 0.7644	  		\\ \hline
+    depth=15, leafSamples=10 &   0.8234       	\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (Decision Tree - Car Evaluation)}
+  \label{table:DTCarEvaln}
+  \end{table}
+
+\subsection{Random Forest}
+
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixRFcars}. Performance measures with different parameters are in the Table \ref{table:RFCarEvaln}.
+We can see in the result that it appears to be sensible to restrict the maximum number of samples leftover in a leave of any given tree. the same goes for the depth of the tree. However it should be warned that creating trees with two high depth numbers might again tend to overfit the data.
+In this analysis we omit the time since it was so quick that the timing doesn't give us any valuable information, as well as Area under the curve.
+
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+   	    1078  & 129  &   0  &  3 \\ \hline
+          67  & 295 &   5  &  17 \\ \hline
+          0  &  24  &  38   &  3 \\ \hline
+          0  &  24  &  3   & 42 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Random Forest - cars)}
+  \label{table:confusionMatrixRFcars}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+     		-	   & Accuracy  	 \\ \hline
+    depth=10, leafSamples=10 &  0.8408 	  	\\ \hline
+    depth=10, leafSamples=25 & 	0.8003	   		\\ \hline
+    depth=5, leafSamples=25 & 	 0.7974	  		\\ \hline
+    depth=5, leafSamples=50 &   0.8043       	\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (Random Forest - Car Evaluation)}
+  \label{table:RFCarEvaln}
+  \end{table}
+  
+
+\section{Dataset \textit{Detect Malicious Executable(AntiVirus)}}
+
+\subsection{Naive Bayes}
+Confusion matrix using the best settings is in the Table \ref{table:confusionMatrixBayesAntivirus}. Performance measures with different parameters are in the Table \ref{table:BayesAntiVirus}. Time measure are done on 70/30 set, but accuracy and AUC are calculated on 10-fold. In confusion matrix is data with $alpha = 1$. With that good accuracy we think it is overfitted.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+    301 & 0  \\ \hline
+    1 & 71 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Naive Bayes - Antivirus)}
+  \label{table:confusionMatrixBayesAntivirus}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	ACU 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    alpha=1 &  0.9973	  &     0.5		& 		0.00258			  & 		0.00074 		\\ \hline
+    alpha=0.1 & 	0.9973	  & 	0.0		& 		0.00268			  &			0.00086 		\\ \hline
+
+  \end{tabular}
+  \caption{Performance measures with different parameters (Naive Bayes - Antivirus)}
+  \label{table:BayesAntiVirus}
+  \end{table}
+  
+  
+\subsection{Support Vector Machine - SVM}
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixSVMAntiVirus}. Performance measures with different parameters are in the Table \ref{table:SVMAntiVirus}. Time measure are done on 70/30 set, but accuracy and AUC are calculated on 10-fold. In confusion matrix is data with $C = 1.0$. We firmly believe it is overfitted.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+   	    300 & 1 \\ \hline
+    	1 & 71\\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (SVM - AntiVirus)}
+  \label{table:confusionMatrixSVMAntiVirus}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	AUC 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    $C = 1.0$ &  0.99	  	&     0.5		& 	0.01		  & 		0.01 		\\ \hline
+    $C = 2.0$ & 	0.98	  & 	0.5 		& 		0.02			  &			0.01 		\\ \hline
+    $C = 0.5$ & 		  0.99		& 		0.5			  &			0.01 & 0.01		\\ 
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (SVM Antivirus)}
+  \label{table:SVMAntiVirus}
+  \end{table}
+  
+\subsection{Decision Tree}
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixDecisionTreeAntivirus}. Performance measures with different parameters are in the Table \ref{table:DecisionTreeAntiVirus}.
+The Decision Tree seems to give very good results. The first split is always done on the attribute number 19 regardless of how we actually choose the attributes. So either this attribute is the only relevant attribute or we have a bad case of overfitting the data.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+    \hline
+     \hline
+    300 & 1  \\ \hline
+    3 & 69 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Decision Tree - Antivirus)}
+  \label{table:confusionMatrixDecisionTreeAntivirus}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	ACU 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    depth=4, leafSamples=4 &  0.989 	  &     0.5		& 		0.0064			  & 		 0.0832 		\\ \hline
+    depth=2, leafSamples=10 & 	0.983	  & 	0.5 		& 		0.0059			  &			 0.0849 		\\ \hline
+    depth=2, leafSamples=25 & 	 0.975	  & 	0.5		& 		0.0055			  &			0.0774		\\ \hline
+    depth=4, leafSamples=50 &  0.975       & 	0.5		& 		0.0072			  &			0.0796			\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (Decision Tree - Antivirus)}
+  \label{table:DecisionTreeAntiVirus}
+  \end{table}
+  
+\subsection{Random Forest}
+Confusion matrix (10-fold) is in the Table \ref{table:confusionMatrixRFAntivirus}. Performance measures with different parameters are in the Table \ref{table:RFAntiVirus}.
+The Random Forest gives, similar to the Decision Tree, very good results on this dataset. However it seems to be a case of overfitting. Also changing the variables gives very little variance in the results.
+\begin{table}
+  \centering
+  \begin{tabular}{| c | c |}
+     \hline
+    301 & 0  \\ \hline
+    5 & 67 \\
+    \hline
+  \end{tabular}
+  \caption{Confusion matrix using the best settings (Random Forest - Antivirus)}
+  \label{table:confusionMatrixRFAntivirus}
+  \end{table}
+  
+  \begin{table}
+  \centering
+  \begin{tabular}{| c | c | c | c | c |}
+    \hline
+     		-	   & Accuracy & 	ACU 	& Training time [sec] & Evaluation time [sec] \\ \hline
+    depth=4, leafSamples=10 &  0.986 	  &     0.5		& 		0.0179			  & 		0.2495 		\\ \hline
+    depth=2, leafSamples=10 & 	0.981	  & 	0.5 		& 		0.0175			  &			 0.2452 		\\ \hline
+    depth=2, leafSamples=25 & 	 0.941	  & 	0.5		& 		0.0184			  &			0.2535		\\ \hline
+    depth=4, leafSamples=50 &  0.941       & 	0.5		& 		0.0184			  &			0.2535			\\
+    \hline
+  \end{tabular}
+  \caption{Performance measures with different parameters (Random Forest - Antivirus)}
+  \label{table:RFAntiVirus}
+  \end{table}
+
+\section{Conclusions}
+
+As we assumed, time needed for training and evaluation is different in between models. Random Forest Tree and Decision Tree are quick, but they don't behave very well on the small data sets. However, SVM needs longer time to train and evaluate data, but it behaves well already on the small data sets. Moreover, we had some problems with over fitting it. 
+
+For further work, we propose some changes in pre processing because we believe that it could have been done better. Because of the time deadline, we weren't able to to compare classifiers on every data set. We believe that would be interesting for a reader as well.
+
+\section{System Description}
+We worked on a system with the following specifics: 
+Unix/Ubuntu 16.04 Operating System
+python 3.4
+using the packages pandas 0.21, sklearn 0.19.1, and for initial data exploration RStudio 0.99.893
+
+
+\end{document}
