@@ -34,7 +34,7 @@ def preprocess_dataset(dataset):
     # saw 144 values with "-" in dataset
     dataset['ZIP'] = pd.to_numeric(dataset['ZIP'].apply(lambda x: x.rstrip("-")))
 
-    # removing the data with 'sparse' distribution
+    # removing the att with 'sparse' distribution
     # X    2492
     # 1       4
     # 5       2

@@ -3,9 +3,9 @@ import time
 
 import numpy as np
 import pandas as pd
-from sklearn import metrics
 
-from sklearn.metrics import confusion_matrix, accuracy_score
+
+from sklearn.metrics import confusion_matrix, accuracy_score, auc
 from sklearn.model_selection import  cross_val_predict
 
 def write_subms(dataset_y, predictions, method_name):
@@ -24,15 +24,23 @@ def write_subms(dataset_y, predictions, method_name):
     print("predicted 1s", counter)
     file_subm.close()
 
-
+def equal(lista, listb):
+    if len(lista) != len(listb):
+        return False
+    for i in range(len(lista)):
+        if lista[i] != listb[i]:
+            return False
+    return True
 
 def discretize(dataset_train, dataset_test):
     for att in dataset_train:
-        if att in dataset_test and dataset_train[att].dtype != "object" and not("_" in att):
+        if att in dataset_test and dataset_train[att].dtype != "object" and not equal(dataset_train[att].unique(), [0,1]) and not equal(dataset_train[att].unique(), [0]):
             train_series, bins = pd.qcut(dataset_train[att] + jitter(dataset_train[att]), 4, retbins=True, labels=False)
-            bins[0] = np.NINF
-            bins[4] = np.Infinity
+            bins[0] = -float("inf")
+            bins[4] = float("inf")
             test_series = pd.cut(dataset_test[att] + jitter(dataset_test[att]), bins=bins, include_lowest=True, labels=False)
+           # print(np.where(test_series.unique()<0))
+            #print(np.where(train_series.unique()<0))
             dataset_train[att] = train_series
             dataset_test[att] = test_series
 
@@ -67,14 +75,9 @@ def do_classification(clf, discretize_flag=False):
 
     conf_mat = confusion_matrix(dataset_train["TARGET_B"], y_pred)
     acc_score = accuracy_score(dataset_train["TARGET_B"], y_pred)
+    auc_score = auc(dataset_train["TARGET_B"], predictions, reorder=True)
     print("Confusion matrix 10-fold")
     print(conf_mat)
-    print("ACC_score:", acc_score)
-
-    try:
-        auc_score = metrics.auc(dataset_train["TARGET_B"], y_pred)
-    except:
-        auc_score = metrics.auc(dataset_train["TARGET_B"], y_pred, reorder=True)
-
-    print("AUC: ", auc_score)
+    print("ACC_score",acc_score)
+    print("auc", auc_score)
     return dataset_test["CONTROLN"], predictions
