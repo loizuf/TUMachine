@@ -36,9 +36,10 @@ def normalize_dataset(dataset):
 
 
 def prepare_values(dataset):
-    dataset.columns = ["Date", "Value"]
+    dataset.columns = ["Date", "client1", "client2"]
 
-    dataset["Value"] = dataset["Value"].apply(lambda x: float(x.replace(',', '.')))
+    dataset["client1"] = dataset["client1"].apply(lambda x: float(x.replace(',', '.')))
+    dataset["client2"] = dataset["client2"].apply(lambda x: float(x.replace(',', '.')))
     return dataset
 
 
@@ -50,8 +51,8 @@ if __name__ == '__main__':
 
     dataset = clear_dataset(dataset)
 
-    # take just one client - we must model them separately anyhow
-    dataset = dataset[dataset.columns[0:15:14]]
+    # take two clients - we must model them separately anyhow
+    dataset = dataset[dataset.columns[0:12:5]]
 
     dataset = prepare_values(dataset)
 
