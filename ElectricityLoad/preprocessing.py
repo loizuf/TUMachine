@@ -35,6 +35,13 @@ def normalize_dataset(dataset):
     return result
 
 
+def prepare_values(dataset):
+    dataset.columns = ["Date", "Value"]
+
+    dataset["Value"] = dataset["Value"].apply(lambda x: float(x.replace(',', '.')))
+    return dataset
+
+
 if __name__ == '__main__':
     file_name = "../datasets/electricity_load/LD2011_2014.txt"
     dataset = pd.read_csv(file_name, sep = ';', low_memory=False, na_values = 0)
@@ -43,8 +50,10 @@ if __name__ == '__main__':
 
     dataset = clear_dataset(dataset)
 
-    # take just first client - we must model them separately anyhow
-    dataset = dataset[dataset.columns[0:2]]
+    # take just one client - we must model them separately anyhow
+    dataset = dataset[dataset.columns[0:15:14]]
+
+    dataset = prepare_values(dataset)
 
     dataset = normalize_dataset(dataset)
 
