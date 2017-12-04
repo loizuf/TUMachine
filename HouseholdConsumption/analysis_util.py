@@ -8,31 +8,23 @@ def load_dataset(path, na_values = np.NaN):
     return pd.read_csv(path, low_memory=False, na_values=na_values)
 
 
-def draw_correlation():
-    dataset = load_dataset("../datasets/electricity_load/LD2011_2014_preprocessed.txt")
-
-    # correlation
-    plt.scatter(dataset['client1'], dataset['client2'], s=2)
-    plt.xlabel("Client 1 electricity load")
-    plt.ylabel("Client 2 electricity load")
-    plt.title("Positive correlation between two clients")
-    plt.savefig("images/correlation.png")
-    plt.clf()
-
-
 def calc_regression(regressor, name):
-    dataset = load_dataset("../datasets/electricity_load/LD2011_2014_preprocessed.txt")
+    dataset = load_dataset("../datasets/householdConsumption/household_power_consumption_preprocessed.txt")
+    dependent_variable = 'Global_intensity'
+    dataset_short_name='HEPC'
 
-    # we don't need time - it's irrelevant
+    # we need neither time nor date
+    dataset = dataset.drop('Time', axis = 1)
     dataset = dataset.drop('Date', axis = 1)
-    X = dataset.drop('client2', axis = 1)
+
+    X = dataset.drop(dependent_variable, axis = 1)
 
     X_train, X_test, Y_train, Y_test = train_test_split(
-        X , dataset["client2"], test_size = 0.3, random_state = 5
+        X , dataset[dependent_variable], test_size = 0.3, random_state = 5
     )
 
     # training
-    regressor.fit(X, dataset["client2"])
+    regressor.fit(X, dataset[dependent_variable])
     pred_train = regressor.predict(X_train)
     pred_test = regressor.predict(X_test)
 
@@ -44,10 +36,10 @@ def calc_regression(regressor, name):
     ax.set_ylim([0, 1])
     ax.grid()
     plt.scatter(Y_test, pred_test, s=1)
-    plt.xlabel("Actual electricity load")
-    plt.ylabel("Predicted electricity load")
-    plt.title("Actual vs Predicted electricity load")
-    plt.savefig("images/" + name + "-actualVsPredict.png")
+    plt.xlabel("Actual global intensity")
+    plt.ylabel("Predicted global intensity")
+    plt.title("Actual vs Predicted global intensity")
+    plt.savefig("images/" + name + "-actualVsPredict" + dataset_short_name + ".png")
 
     # residual plot
     plt.cla()
@@ -56,11 +48,7 @@ def calc_regression(regressor, name):
     plt.hlines(y=0, xmin=0, xmax = 1)
     plt.title('Residual Plot using training (blue) and test (green) data')
     plt.ylabel('Residuals')
-    plt.savefig("images/" + name + "-residuals.png")
+    plt.savefig("images/" + name + "-residuals" + dataset_short_name + ".png")
 
     print("Fit a model on X_train and calculate Mean-squared error with Y_train: ", np.mean((Y_train-pred_train) ** 2))
     print("Fit a model on X_train and calculate Mean-squared error with X_test, Y_test: ", np.mean((Y_test-pred_test) ** 2))
-
-
-if __name__ == '__main__':
-    draw_correlation()

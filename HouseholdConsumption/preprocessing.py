@@ -47,7 +47,7 @@ def normalize_dataset(dataset):
 
 if __name__ == '__main__':
     file_name = "../datasets/householdConsumption/household_power_consumption.txt"
-    dataset = pd.read_csv(file_name, sep = ';', low_memory=False)
+    dataset = pd.read_csv(file_name, sep = ';', low_memory=False, na_values='?')
 
     dataset = clear_dataset(dataset)
 
