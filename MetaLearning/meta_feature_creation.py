@@ -41,7 +41,7 @@ column_names = ["avg_na", "class_num", "attr_num", "data_num", "class_data_ratio
 sets = preprocessing.load_sets(rootdir)
 meta_frame = pd.DataFrame(columns=column_names,index=range(len(sets)))
 
-for i in range(7,8):#len(sets)):
+for i in range(len(sets)):
 
     set_params = []
     set = sets[i]
