@@ -20,7 +20,8 @@ def convert_objects(data_set):
     for column in data_set:
         if data_set[column].dtype == 'object':
             data_set[column] = data_set[column].astype('category').cat.codes
-    return data_set.astype('float32')
+    data_set = data_set.astype('float32')
+    return data_set
 
 
 def fill_na(data_set):
@@ -29,8 +30,12 @@ def fill_na(data_set):
 
 def min_max_scaling(data_set):
     scaler = sk.preprocessing.MinMaxScaler()
-    scaler.fit(data_set)
-    return set_names(pd.DataFrame(scaler.transform(data_set)))
+    classes = data_set["class"]
+    rest = data_set.drop('class', axis=1)
+    scaler.fit(rest)
+    new_frame = pd.DataFrame(scaler.transform(rest))
+    new_frame["class"] = classes
+    return new_frame
 
 
 def center(data_set):

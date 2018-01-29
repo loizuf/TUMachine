@@ -2,6 +2,7 @@ import pandas as pd
 import sklearn as sk
 import os
 
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -16,8 +17,9 @@ from MetaLearning import statistical_characterization as sc
 def get_best_classifier(data_set):
     x_train, x_test, y_train, y_test = train_test_split(data_set.drop(['class'], axis=1), data_set['class'].astype('int'), test_size = 0.3, random_state = 0)
     classifiers = [
-        DecisionTreeClassifier(),
-        KNeighborsClassifier(),
+        DecisionTreeClassifier(max_depth=5, max_leaf_nodes=20),
+        RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
+        #KNeighborsClassifier(3),
         SVC(),
         MLPClassifier(),
         MultinomialNB()
@@ -30,6 +32,7 @@ def get_best_classifier(data_set):
         if score > max_score:
             max_score = score
             max_index = i
+        print("finished: " + str(i))
     return max_index
 
 rootdir = '../datasets_test/datasets'
@@ -38,7 +41,7 @@ column_names = ["avg_na", "class_num", "attr_num", "data_num", "class_data_ratio
 sets = preprocessing.load_sets(rootdir)
 meta_frame = pd.DataFrame(columns=column_names,index=range(len(sets)))
 
-for i in range(len(sets)):
+for i in range(7,8):#len(sets)):
 
     set_params = []
     set = sets[i]
@@ -63,6 +66,7 @@ for i in range(len(sets)):
     set_params.append(get_best_classifier(set))
 
     meta_frame.iloc[i] = set_params
+    print("don with set: " + str(i))
 
 meta_frame.to_csv("../datasets_test/metaframe.csv")
 
