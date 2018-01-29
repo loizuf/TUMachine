@@ -3,13 +3,16 @@ import pandas as pd
 import os
 
 
+def set_names(data_set):
+    return data_set.set_axis(data_set.columns.values[0:-1].tolist() + ['class'], axis='columns', inplace=False)
+
+
 def load_sets(path):
     data_set_list = []
-    print(path)
     for subdir, dirs, files in os.walk(path):
         for file in files:
-            print(file)
-            data_set_list.append(pd.read_csv(path+"/"+file, low_memory=False, sep=',', na_values=["", " ", "?"]))
+            set = pd.read_csv(path+"/"+file, low_memory=False, sep=',', na_values=["", " ", "?"], header=None)
+            data_set_list.append(set_names(set))
     return data_set_list
 
 
@@ -27,8 +30,9 @@ def fill_na(data_set):
 def min_max_scaling(data_set):
     scaler = sk.preprocessing.MinMaxScaler()
     scaler.fit(data_set)
-    return scaler.transform(data_set)
+    return set_names(pd.DataFrame(scaler.transform(data_set)))
 
 
 def center(data_set):
     return data_set - data_set.mean()
+

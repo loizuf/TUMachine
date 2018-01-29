@@ -1,8 +1,7 @@
-from xml.etree.ElementInclude import include
+from random import random
 
 import scipy.stats
 import numpy as np
-import pandas as pd
 
 #7
 def average_entropy(data_set):
@@ -61,6 +60,11 @@ def average_signal_to_noise(data_set):
     snr = means/sds
     return sum(snr)/len(snr)
 
+#10
 def average_std_deviation(data_set):
     sds = np.array(data_set.std(axis=0), dtype=np.float)
     return sum(sds)/len(sds)
+
+#11
+def eleventh_feature():
+    return random.uniform(0, 1)

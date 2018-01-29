@@ -1,12 +1,39 @@
 import pandas as pd
+import sklearn as sk
 import os
 
-from MetaLearning import model_based_characterization as mbc
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+
 from MetaLearning import preprocessing
 from MetaLearning import statistical_characterization as sc
 
-rootdir = '../datasets_test'
-column_names = ["avg_na", "class_num", "attr_num", "data_num", "class_data_ratio", "class_entropy", "avg_entropy", "avg_pearsons_r", "avg_snr", "avg_sd"]
+
+def get_best_classifier(data_set):
+    x_train, x_test, y_train, y_test = train_test_split(data_set.drop(['class'], axis=1), data_set['class'].astype('int'), test_size = 0.3, random_state = 0)
+    classifiers = [
+        DecisionTreeClassifier(),
+        KNeighborsClassifier(),
+        SVC(),
+        MLPClassifier(),
+        MultinomialNB()
+        ]
+    max_score = 0
+    for i in range(len(classifiers)):
+        clf = classifiers[i]
+        clf.fit(x_train, y_train)
+        score = clf.score(x_test, y_test)
+        if score > max_score:
+            max_score = score
+            max_index = i
+    return max_index
+
+rootdir = '../datasets_test/datasets'
+column_names = ["avg_na", "class_num", "attr_num", "data_num", "class_data_ratio", "class_entropy", "avg_entropy", "avg_pearsons_r", "avg_snr", "avg_sd", "classifier"]
 
 sets = preprocessing.load_sets(rootdir)
 meta_frame = pd.DataFrame(columns=column_names,index=range(len(sets)))
@@ -33,9 +60,11 @@ for i in range(len(sets)):
     set = preprocessing.min_max_scaling(set)
 
     set_params.append(sc.average_std_deviation(set))
+    set_params.append(get_best_classifier(set))
 
     meta_frame.iloc[i] = set_params
 
-print(meta_frame)
+meta_frame.to_csv("../datasets_test/metaframe.csv")
+
 
 
