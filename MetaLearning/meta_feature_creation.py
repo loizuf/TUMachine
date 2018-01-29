@@ -19,9 +19,8 @@ def get_best_classifier(data_set):
     classifiers = [
         DecisionTreeClassifier(max_depth=5, max_leaf_nodes=20),
         RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
-        #KNeighborsClassifier(3),
-        SVC(),
-        MLPClassifier(),
+        KNeighborsClassifier(2),
+        MLPClassifier(hidden_layer_sizes=(5,2)),
         MultinomialNB()
         ]
     max_score = 0
@@ -36,16 +35,16 @@ def get_best_classifier(data_set):
     return max_index
 
 rootdir = '../datasets_test/datasets'
-column_names = ["avg_na", "class_num", "attr_num", "data_num", "class_data_ratio", "class_entropy", "avg_entropy", "avg_pearsons_r", "avg_snr", "avg_sd", "classifier"]
+column_names = ["contains_cat", "avg_na", "class_num", "attr_num", "data_num", "class_data_ratio", "class_entropy", "avg_entropy", "avg_pearsons_r", "avg_snr", "avg_sd", "classifier"]
 
 sets = preprocessing.load_sets(rootdir)
 meta_frame = pd.DataFrame(columns=column_names,index=range(len(sets)))
 
 for i in range(len(sets)):
-
     set_params = []
     set = sets[i]
 
+    set_params.append(sc.contains_categorical(set))
     set_params.append(sc.nan_average_number(set))
     set_params.append(sc.unique_class_number(set))
     set_params.append(sc.attribute_number(set))
@@ -66,7 +65,7 @@ for i in range(len(sets)):
     set_params.append(get_best_classifier(set))
 
     meta_frame.iloc[i] = set_params
-    print("don with set: " + str(i))
+    print("done with set: " + str(i))
 
 meta_frame.to_csv("../datasets_test/metaframe.csv")
 
