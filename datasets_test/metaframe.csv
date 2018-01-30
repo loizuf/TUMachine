@@ -1,4 +1,4 @@
-,contains_cat,avg_na,class_num,attr_num,data_num,class_data_ratio,class_entropy,avg_entropy,avg_pearsons_r,avg_snr,avg_sd,classifier
+id,contains_cat,avg_na,class_num,attr_num,data_num,class_data_ratio,class_entropy,avg_entropy,avg_pearsons_r,avg_snr,avg_sd,classifier
 0,0,0.0,2,5,748,149.6,0.791644629845,4.05839833715,0.874620531499,1.00558937782,0.205556948074,0
 1,0,0.0,3,8,440,55.0,1.12771663151,7.58278962908,1.37169029718,1.30742356794,0.226678004584,1
 2,0,0.16,2,10,699,69.9,0.92931793725,2.26479603761,5.61117089391,1.31649175716,0.366155087836,1

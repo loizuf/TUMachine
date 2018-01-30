@@ -1,0 +1,41 @@
+Model with rank: 1
+Mean validation score: 0.625 (std: 0.185)
+Parameters: {'criterion': 'gini', 'bootstrap': False, 'min_samples_split': 12, 'n_estimators': 4, 'max_features': 9, 'min_samples_leaf': 3, 'max_depth': 3}
+
+Model with rank: 1
+Mean validation score: 0.625 (std: 0.185)
+Parameters: {'criterion': 'gini', 'bootstrap': False, 'min_samples_split': 9, 'n_estimators': 9, 'max_features': 3, 'min_samples_leaf': 6, 'max_depth': None}
+
+Model with rank: 3
+Mean validation score: 0.500 (std: 0.137)
+Parameters: {'criterion': 'gini', 'bootstrap': True, 'min_samples_split': 5, 'n_estimators': 1, 'max_features': 7, 'min_samples_leaf': 3, 'max_depth': 3}
+
+Model with rank: 3
+Mean validation score: 0.500 (std: 0.209)
+Parameters: {'criterion': 'gini', 'bootstrap': True, 'min_samples_split': 9, 'n_estimators': 7, 'max_features': 10, 'min_samples_leaf': 2, 'max_depth': 2}
+
+Model with rank: 3
+Mean validation score: 0.500 (std: 0.137)
+Parameters: {'criterion': 'gini', 'bootstrap': False, 'min_samples_split': 2, 'n_estimators': 2, 'max_features': 2, 'min_samples_leaf': 1, 'max_depth': 3}
+
+
+#svm
+Mean validation score: 0.438 (std: 0.122)
+Parameters: {'kernel': 'rbf', 'C': 23.30962462636834, 'class_weight': None, 'gamma': 0.0014418663663686897}
+
+Mean validation score: 0.375 (std: 0.056)
+Parameters: {'kernel': 'rbf', 'C': 9.1215226349938145, 'class_weight': None, 'gamma': 0.00010534854725166242}
+
+10 like that
+
+
+#nn
+Mean validation score: 0.500 (std: 0.303)
+Parameters: {'activation': 'logistic', 'hidden_layer_sizes': (10, 5), 'learning_rate_init': 0.010704907777402024, 'alpha': 0.00019455756835096155}
+
+Mean validation score: 0.438 (std: 0.122)
+Parameters: {'activation': 'logistic', 'hidden_layer_sizes': (5,), 'learning_rate_init': 0.0027318845900519018, 'alpha': 0.0010399399910248899}
+
+8 like that
+
+
